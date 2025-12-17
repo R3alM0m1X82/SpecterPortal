@@ -33,8 +33,8 @@
 - FOCI token exchange across 36 Microsoft applications
 - Permission-less Conditional Access Policy extraction
 - Deep OneDrive/Teams secret scanning with pattern detection
-- Azure Resource abuse (VM command execution, Managed Identity extraction)
-- Complete M365 operations (Email, Calendar, Teams, SharePoint)
+- Azure Resource abuse (VM command execution, Managed Identity extraction etc..)
+- Complete M365 operations (Email, Calendar, Teams, SharePoint etc..)
 - 130+ pre-loaded Application IDs for Device Code Flow
 
 ---
@@ -55,7 +55,8 @@ This tool is provided **for educational and authorized security testing purposes
 ## Key Features
 
 ### Token Management & Authentication
-<img width="2238" height="958" alt="image" src="https://github.com/user-attachments/assets/7d500598-a5ff-4de3-bd3e-8c3b35315e4d" />
+<img width="2499" height="1002" alt="image" src="https://github.com/user-attachments/assets/f7f54772-198d-410e-944c-fbf451b45fd6" />
+
 
 
 **Advanced Token Operations:**
@@ -73,6 +74,8 @@ This tool is provided **for educational and authorized security testing purposes
 - SpecterBroker integration for Windows token extraction
 
 **Token Analysis:**
+<img width="886" height="867" alt="image" src="https://github.com/user-attachments/assets/2228a3b4-5a9c-464f-aa07-7421bdcd72ac" />
+
 - JWT decoding with claims visualization
 - Scope and permission analysis
 - Directory role detection (including Administrative Units)
