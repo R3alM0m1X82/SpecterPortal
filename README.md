@@ -2,7 +2,9 @@
 <img width="1536" height="1024" alt="Logo Alternative Scure_remix_01kawz4dc0edtsgjw9f0f9xwv2" src="https://github.com/user-attachments/assets/04d48310-f803-4662-8625-648703a1c38e" />
 
 <div align="center">
+
 **Security Platform for Entra Cloud Token Enumeration & Reconnaissance**
+  
 
 **[#] by r3alm0m1x82 - safebreach.it [#]**
 
