@@ -5,7 +5,9 @@
 ![SpecterPortal](https://img.shields.io/badge/SPECTER-PORTAL-blueviolet?style=for-the-badge&logo=microsoftazure)
 
 ### The Ultimate Post-Exploitation Framework for Azure AD & Microsoft 365
+
  [+] by r3alm0m1x82 - safebreach.it
+
 **First-of-its-kind integrated platform for Red Team operations**
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
