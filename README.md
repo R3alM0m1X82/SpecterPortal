@@ -1,7 +1,5 @@
 # SpecterPortal 
 <img width="1536" height="1024" alt="Logo Alternative Scure_remix_01kawz4dc0edtsgjw9f0f9xwv2" src="https://github.com/user-attachments/assets/04d48310-f803-4662-8625-648703a1c38e" />
-**Azure/EntraID POST-EXPLOITATION FRAMEWORK**
-
 
 <div align="center">
 
