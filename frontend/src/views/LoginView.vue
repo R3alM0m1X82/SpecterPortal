@@ -69,7 +69,7 @@
         <div class="version-footer">
           <span class="version-badge">
             <span>⚡</span>
-            <span>SpecterPortal v.1.1</span>
+            <span>SpecterPortal v.2.0</span>
           </span>
         </div>
       </div>
