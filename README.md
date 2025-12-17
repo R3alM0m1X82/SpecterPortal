@@ -1,17 +1,16 @@
 # SpecterPortal 
 <img width="1536" height="1024" alt="Logo Alternative Scure_remix_01kawz4dc0edtsgjw9f0f9xwv2" src="https://github.com/user-attachments/assets/04d48310-f803-4662-8625-648703a1c38e" />
-
+**Azure/EntraID POST-EXPLOITATION FRAMEWORK**
 
 
 <div align="center">
 
 ![SpecterPortal](https://img.shields.io/badge/SPECTER-PORTAL-blueviolet?style=for-the-badge&logo=microsoftazure)
 
-### The Ultimate Post-Exploitation Framework for Azure AD & Microsoft 365
-
  [+] by r3alm0m1x82 - safebreach.it
 
-**First-of-its-kind integrated platform for Red Team operations**
+**Security Platform for Entra Cloud Token Enumeration & Reconnaissance**
+
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
