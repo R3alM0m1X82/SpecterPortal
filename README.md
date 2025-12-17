@@ -6,7 +6,7 @@
 ![SpecterPortal](https://img.shields.io/badge/SPECTER-PORTAL-blueviolet?style=for-the-badge&logo=microsoftazure)
 
 **Security Platform for Entra Cloud Token Enumeration & Reconnaissance**
-[*] by r3alm0m1x82 - safebreach.it [*]
+**[#] by r3alm0m1x82 - safebreach.it [#]**
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
