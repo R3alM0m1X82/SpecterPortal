@@ -295,10 +295,13 @@ Backend runs on `http://127.0.0.1:5000`
 cd frontend
 npm run dev
 ```
+<img width="730" height="235" alt="image" src="https://github.com/user-attachments/assets/d2762933-48e8-4722-beef-832198b2b523" />
+
 Frontend runs on `http://localhost:5173`
 
 **6. Access the application:**
 Open your browser and navigate to `http://localhost:5173`
+<img width="2319" height="989" alt="image" src="https://github.com/user-attachments/assets/2343cbae-c9ab-48a5-a53c-b154bda1f0d2" />
 
 ---
 
