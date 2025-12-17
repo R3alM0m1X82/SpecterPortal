@@ -51,6 +51,7 @@ This tool is provided **for educational and authorized security testing purposes
 ## Key Features
 
 ### Token Management & Authentication
+<img width="2492" height="1016" alt="image" src="https://github.com/user-attachments/assets/cc2cf174-a368-4b84-8b76-1baa8b41bda8" />
 
 **Advanced Token Operations:**
 - **FOCI Token Exchange**: Generate tokens for 36 FOCI-enabled applications from a single Refresh Token
