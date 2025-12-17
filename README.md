@@ -145,7 +145,6 @@ This tool is provided **for educational and authorized security testing purposes
 ### Entra ID Enumeration
 
 **Directory Intelligence:**
-<img width="2493" height="996" alt="image" src="https://github.com/user-attachments/assets/e4ff7962-78a6-4131-8de7-290ded80e4bf" />
 
 - Complete enumeration: Users, Groups, Devices, Contacts
 - Guest account identification with external domain tracking
@@ -153,6 +152,7 @@ This tool is provided **for educational and authorized security testing purposes
 - MFA status per user
 - **Owned Objects**: User-owned apps, groups, devices
 - CSV/JSON export capabilities
+<img width="2493" height="996" alt="image" src="https://github.com/user-attachments/assets/e4ff7962-78a6-4131-8de7-290ded80e4bf" />
 
 **Application Analysis:**
 <img width="2477" height="971" alt="image" src="https://github.com/user-attachments/assets/66d56a62-976e-4200-9d4c-e762a1c510e4" />
@@ -166,6 +166,8 @@ This tool is provided **for educational and authorized security testing purposes
 - App role assignments
 
 **Privileged Access:**
+<img width="2489" height="960" alt="image" src="https://github.com/user-attachments/assets/c42000ae-babb-452e-ba0a-14c1b3aad4b3" />
+
 - Directory role enumeration with members
 - **Administrative Unit nested roles** (not visible in JWT wids)
 - Built-in vs custom role identification
