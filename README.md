@@ -1,5 +1,6 @@
 # SpecterPortal 
-<img width="2174" height="972" alt="LOGIN" src="https://github.com/user-attachments/assets/0d66966a-4aca-4ebc-a43a-a1e940b9af00" />
+<img width="1536" height="1024" alt="Logo Alternative Scure_remix_01kawz4dc0edtsgjw9f0f9xwv2" src="https://github.com/user-attachments/assets/04d48310-f803-4662-8625-648703a1c38e" />
+
 
 
 <div align="center">
