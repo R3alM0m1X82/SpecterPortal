@@ -267,7 +267,7 @@ Requires appropriate permissions:
 **1. Clone the repository:**
 ```bash
 git clone https://github.com/r3alm0m1x82/SpecterPortal.git
-cd SpecterPortal
+cd SpecterPortal\backend
 ```
 
 **2. Install Python dependencies:**
