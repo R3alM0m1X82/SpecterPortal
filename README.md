@@ -173,6 +173,8 @@ This tool is provided **for educational and authorized security testing purposes
 - License tracking (E3, E5, F3, etc.)
 
 **Tenant Configuration:**
+<img width="2484" height="1008" alt="image" src="https://github.com/user-attachments/assets/a0c9e096-080f-427e-ac02-5ce30e51335a" />
+
 - Custom domain enumeration
 - Authentication methods analysis
 - **Authorization Policy extraction** (guest rules, default permissions)
