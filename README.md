@@ -5,7 +5,7 @@
 ![SpecterPortal](https://img.shields.io/badge/SPECTER-PORTAL-blueviolet?style=for-the-badge&logo=microsoftazure)
 
 ### The Ultimate Post-Exploitation Framework for Azure AD & Microsoft 365
-
+ [+] by r3alm0m1x82 - safebreach.it
 **First-of-its-kind integrated platform for Red Team operations**
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
@@ -23,7 +23,7 @@
 
 ## Overview
 
-**SpecterPortal** is an advanced post-exploitation framework designed for Red Team operations in Azure AD and Microsoft 365 environments. Unlike basic enumeration tools, SpecterPortal provides a **complete offensive platform** with token management, deep content analysis, resource abuse capabilities, and privilege escalation vectors.
+**SpecterPortal** is an advanced post-exploitation framework designed for Red Team operations in Entra ID and Microsoft 365 environments. Unlike basic enumeration tools, SpecterPortal provides a **complete offensive platform** with token management, deep content analysis, resource abuse capabilities, and privilege escalation vectors.
 
 **What makes SpecterPortal unique:**
 - FOCI token exchange across 36 Microsoft applications
@@ -32,6 +32,19 @@
 - Azure Resource abuse (VM command execution, Managed Identity extraction)
 - Complete M365 operations (Email, Calendar, Teams, SharePoint)
 - 130+ pre-loaded Application IDs for Device Code Flow
+
+---
+
+## ⚠️ Disclaimer
+
+**IMPORTANT - READ CAREFULLY**
+
+This tool is provided **for educational and authorized security testing purposes only**. 
+
+### Legal Notice
+
+- ✅ **Authorized Use Only**: Use only on systems you own or have explicit written permission to test.
+- ❌ **Unauthorized Access**: Using this tool without proper authorization may violate the laws of your country.
 
 ---
 
@@ -146,18 +159,17 @@
 - **Administrative Unit nested roles** (not visible in JWT wids)
 - Built-in vs custom role identification
 - License tracking (E3, E5, F3, etc.)
-- PIM eligible roles
 
 **Tenant Configuration:**
 - Custom domain enumeration
 - Authentication methods analysis
 - **Authorization Policy extraction** (guest rules, default permissions)
 - Security defaults status
-- External collaboration settings
+
 
 **Conditional Access Policies:**
 - **Permission-less extraction** using legacy API technique
-- Complete policy enumeration without Directory.Read permissions
+- **Complete policy enumeration without Directory.Read permissions**
 - Policy conditions: users, groups, locations, platforms
 - Grant and session controls analysis
 - Policy state identification (Enabled/Disabled/Report-Only)
@@ -191,24 +203,25 @@
 - Key metadata and operations
 - Access policy analysis per identity
 
-**SQL Databases:**
-- SQL Server and Database discovery
-- Connection string construction
-- Firewall rule enumeration
-- Credential recovery via Key Vault integration
-
-**App Services & Functions:**
-- Web app enumeration with runtime details
-- **Application settings extraction** (secrets, connection strings)
-- Deployment credential recovery
-- Managed Identity configuration
-
 **Automation Accounts:**
 - Runbook enumeration and source code access
 - **Runbook execution** capabilities
 - **Hybrid Worker Group abuse** for on-premises access
 - Automation credentials and variables
 - Schedule manipulation
+
+**SQL Databases:** NOT Complete
+- SQL Server and Database discovery
+- Connection string construction
+- Firewall rule enumeration
+- Credential recovery via Key Vault integration
+
+**App Services & Functions:** NOT Complete
+- Web app enumeration with runtime details
+- **Application settings extraction** (secrets, connection strings)
+- Deployment credential recovery
+- Managed Identity configuration
+
 
 ### Advanced Capabilities
 
@@ -299,6 +312,7 @@ Most versatile method with 130+ pre-loaded Application IDs:
 ### Token Import
 
 **Using SpecterBroker:**
+- **[SpecterBroker](https://github.com/r3alm0m1x82/SpecterBroker)** - Windows token extraction (TBRes/WAM Broker)
 ```powershell
 # Extract tokens from Windows
 .\SpecterBroker.exe
@@ -330,271 +344,20 @@ Service Principal authentication:
 
 ---
 
-## Usage Examples
-
-### FOCI Token Exchange
-
-Convert a single Refresh Token into multiple application tokens:
-
-1. Obtain initial Refresh Token (any FOCI app)
-2. **Tokens** → Select token → **FOCI Exchange**
-3. Generate tokens for 36 applications
-4. Create Access Tokens for different audiences
-
-**Applications:** Office, Teams, Outlook, OneDrive, Azure Portal, VS Code, Graph Explorer, PowerBI, etc.
-
-### Conditional Access Enumeration Without Permissions
-
-Extract policies without Directory.Read permissions:
-
-1. Navigate to **Graph** → **Tenant Info**
-2. Click **Authorization Policy** tab
-3. View **Conditional Access** section
-4. Policies extracted using legacy API technique
-
-**Technical detail:** Uses `/.default` scope with deprecated endpoint to bypass Graph permission requirements.
-
-### Managed Identity Token Extraction
-
-Escalate from VM access to data plane permissions:
-
-1. **Azure Resources** → **Virtual Machines**
-2. Select VM with Managed Identity assigned
-3. Run command: 
-```bash
-curl -H Metadata:true "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://graph.microsoft.com"
-```
-4. Extract Access Token from response
-5. Import token into SpecterPortal
-
-**Use case:** VM Contributor → Storage Blob Data Reader/Contributor
-
-### Automation Runbook Abuse
-
-Lateral movement from Azure to on-premises:
-
-1. **Azure Resources** → **Automation Accounts**
-2. Select account with Hybrid Worker Groups configured
-3. Create or modify runbook with malicious payload
-4. Execute runbook on Hybrid Worker
-5. Commands execute on on-premises systems
-
-**Use case:** Cloud-to-on-prem lateral movement, credential harvesting, persistence
-
-### Email Rule Persistence
-
-Maintain access after credential reset:
-
-1. **MS 365** → **Emails** → **Rules**
-2. Create forwarding rule with keywords
-3. Example: Forward emails containing "password", "code", "verification"
-4. Destination: attacker-controlled email
-5. Rule persists after password changes
-
-**Detection difficulty:** High - User-configurable feature rarely monitored
-
----
-
-## Detection & Defense
-
-### Blue Team Indicators
-
-**Token Abuse Signals:**
-- Unusual Application IDs in Azure AD sign-in logs
-- Token requests from unexpected geolocations
-- Multiple audience requests in short timeframe
-- FOCI token exchange patterns
-- Legacy authentication protocol usage
-
-**Azure Resource Abuse:**
-- VM Run Command executions (`AzureActivity` logs)
-- Managed Identity token requests (169.254.169.254 access)
-- Automation runbook modifications
-- Key Vault secret access from non-standard sources
-- Storage blob enumeration spikes
-
-**M365 Abuse:**
-- Inbox rule creation events (especially forwarding)
-- Bulk OneDrive file downloads
-- Unusual Graph API query patterns
-- High-volume email searches
-- Calendar rule modifications
-
-### Defensive Recommendations
-
-**Conditional Access:**
-- Require MFA for all users
-- Enforce compliant device requirements
-- Implement location-based policies
-- Block legacy authentication protocols
-
-**Azure Resources:**
-- Enable VM Just-In-Time access
-- Restrict Run Command to specific IPs
-- Implement Key Vault firewall rules
-- Monitor Managed Identity token requests
-- Review Automation Account permissions regularly
-
-**M365 Monitoring:**
-- Alert on inbox rule creation
-- Monitor bulk download activities
-- Track OAuth app consent grants
-- Review mailbox forwarding configurations
-- Enable unified audit logging
-
-**Token Protection:**
-- Implement Conditional Access device compliance
-- Use Windows Hello for Business
-- Enable Token Protection policies
-- Monitor refresh token usage patterns
-- Implement certificate-based authentication
-
----
-
-## Operational Use Cases
-
-### Attack Chain Examples
-
-**Initial Access → Privilege Escalation:**
-```
-1. Phished credentials → Device Code Flow token
-2. Enumerate directory roles → Identify privileged users
-3. Target user owns App Registration → Extract client secret
-4. Authenticate as application → Application permissions
-5. Grant Directory.ReadWrite.All → Full tenant control
-```
-
-**Azure → M365 Lateral Movement:**
-```
-1. VM Contributor access → Run Command execution
-2. Extract Managed Identity token → Storage access
-3. Discover OneDrive sync folder → Access user files
-4. Extract cached Refresh Token → M365 access
-5. Email rule persistence → Maintain access
-```
-
-**Cloud → On-Premises:**
-```
-1. Automation Account access → Runbook modification
-2. Hybrid Worker Group identified → On-prem connection
-3. Malicious runbook execution → Domain credential dump
-4. Lateral movement tools deployed → Persistent access
-5. Export sensitive data → Cloud exfiltration
-```
-
----
-
-## Training & Education
-
-SpecterPortal was developed for **SafeBreach Academy** Red Team training programs in corporate environments (500+ endpoints). The platform teaches:
-
-- OAuth 2.0 and token-based authentication security
-- Azure AD attack paths and privilege escalation
-- Post-exploitation techniques in cloud environments
-- Defensive countermeasures and detection strategies
-- Lateral movement between cloud and on-premises
-
-**Training scenarios:**
-- Token acquisition and manipulation
-- Permission enumeration and abuse
-- Data exfiltration techniques
-- Persistence mechanisms
-- Detection evasion strategies
-
----
-
 ## Roadmap
 
-### Version 2.1 (Q1 2025)
+### Version 2.1
 - Full NGC token support for Windows Hello credential theft
 - PRT (Primary Refresh Token) extraction capabilities
 - Enhanced Conditional Access Policy risk scoring
-- Azure Blob Storage enumeration module
-- Improved Graph API rate limiting handling
-
-### Version 2.2 (Q2 2025)
-- Automated attack chains (initial access → domain admin)
-- Teams file content secret scanning
-- Multi-factor authentication bypass techniques
-- PowerShell Empire integration
-- Custom exfiltration channels
-
-### Version 3.0 (Q3 2025)
-- Multi-tenant campaign management
-- Collaborative Red Team features
-- Custom plugin system for extensibility
-- Advanced reporting with MITRE ATT&CK mapping
-- AI-powered attack path discovery
 
 ---
 
-## Comparison with Other Tools
-
-| Feature | SpecterPortal | GraphSpy | AADInternals | ROADtools |
-|---------|--------------|----------|--------------|-----------|
-| Token Management | **Advanced** | Basic | CLI Only | None |
-| FOCI Exchange | **✓** | ✗ | ✗ | ✗ |
-| Auto-Refresh | **✓** | ✗ | ✗ | ✗ |
-| Secret Scanning | **Deep** | ✗ | ✗ | ✗ |
-| Azure Resources | **Full** | Basic | Partial | ✗ |
-| M365 Operations | **Complete** | Basic | Partial | ✗ |
-| CAP No-Perms | **✓** | ✗ | ✗ | **✓** |
-| GUI | **✓** | CLI | PowerShell | CLI |
-| Active Development | **✓** | ✗ | **✓** | **✓** |
-
----
-
-## Responsible Use
-
-### Legal Notice
-
-**AUTHORIZED TESTING ONLY**
-
-This tool is intended exclusively for:
-- Authorized penetration testing with written consent
-- Red Team engagements within defined scope
-- Security research in controlled environments
-- Corporate security training programs
-
-### User Responsibilities
-
-Users must:
-1. Obtain written authorization before testing any system
-2. Operate strictly within the defined scope of engagement
-3. Follow responsible disclosure practices for discovered vulnerabilities
-4. Comply with all applicable local and international laws
-5. Document all activities professionally
-6. Protect sensitive data discovered during testing
-
-### Legal Warning
-
-**Unauthorized access to computer systems is illegal and may result in criminal prosecution.**
-
-The author and contributors:
-- Assume no liability for misuse of this software
-- Do not authorize or encourage illegal activities
-- Provide this tool for legitimate security research only
-- Are not responsible for any damages caused by users
-
-**Use at your own risk. Know your laws. Get authorization.**
-
----
-
-## Related Projects
-
-- **[SpecterBroker](https://github.com/r3alm0m1x82/SpecterBroker)** - Windows token extraction (TBRes/WAM Broker)
-- **[AADInternals](https://github.com/Gerenios/AADInternals)** - Azure AD management PowerShell module
-- **[ROADtools](https://github.com/dirkjanm/ROADtools)** - Azure AD reconnaissance framework
-- **[TokenTactics](https://github.com/rvrsh3ll/TokenTactics)** - Azure AD token manipulation toolkit
-- **[GraphRunner](https://github.com/dafthack/GraphRunner)** - Microsoft Graph post-exploitation toolset
-- **[MicroBurst](https://github.com/NetSPI/MicroBurst)** - Azure security assessment PowerShell toolkit
-
----
 
 ## Author
 
-**Mohammed (r3alm0m1x82)**  
-Red Team Operator & Security Researcher  
+**r3alm0m1x82 - safebreach.it**
+Purple Team & Security Researcher  
 [SafeBreach Academy](https://safebreach.it)
 
 **GitHub:** [@r3alm0m1x82](https://github.com/r3alm0m1x82)
@@ -603,33 +366,47 @@ For security research collaboration or responsible disclosure, contact via GitHu
 
 ---
 
-## Acknowledgments
+## 🙏 Credits - Inspiration & Research
 
-Special thanks to:
-- **SafeBreach Academy** students and instructors for operational feedback
-- **Microsoft Security Research** for comprehensive Azure documentation
-- **ROADtools** project for CAP extraction techniques
-- **AADInternals** for Entra ID internals insights
-- **The offensive security community** for continuous innovation
+This tool is based on the inspiration of:
 
-Recognition to all red teamers who provided real-world validation during development.
+- **GrapSpy** by RedByte1337
+- **TokenTactics v2** by f-bader
+- **ROADtools** by Dirk-jan Mollema 
+
+
+## 📜 License
+
+```
+MIT License
+
+Copyright (c) 2025 r3alm0m1x82
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ---
 
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-**Disclaimer:** This software is provided "as is" without warranty of any kind. The author is not responsible for any damage or misuse resulting from the use of this software.
+**⚠️ Remember: With great power comes great responsibility. Use ethically and legally. ⚠️**
 
 ---
 
-<div align="center">
-
-### Star this repository if SpecterPortal enhances your Red Team operations
-
-**Made with 💜 for the offensive security community**
-
-*"The most comprehensive Azure AD post-exploitation framework available"*
+*Made with ❤️ for the red team community by r3alm0m1x82*
 
 </div>
