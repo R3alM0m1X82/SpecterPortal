@@ -17,7 +17,7 @@
 
 ---
 
-**[Features](#key-features) • [Installation](#installation) • [Authentication](#authentication) • [Usage](#usage-examples) • [Roadmap](#roadmap)**
+**[Features](#key-features) • [Installation](#installation) • [Authentication](#authentication) • [Roadmap](#roadmap)**
 
 </div>
 
@@ -301,16 +301,6 @@ Open your browser and navigate to `http://localhost:5173`
 
 ## Authentication
 
-### Device Code Flow (Recommended)
-
-Most versatile method with 130+ pre-loaded Application IDs:
-
-1. Navigate to **Tokens** → **Authenticate**
-2. Select **Device Code Flow**
-3. Choose application (Office, Teams, Azure Portal, etc.)
-4. Complete browser authentication
-5. Tokens imported automatically
-
 ### Token Import
 
 **Using SpecterBroker:**
@@ -327,6 +317,17 @@ Tokens → Import JSON → Select cache_export_*.json
 - TBRes cache files
 - WAM Broker tokens
 - Raw JWT (paste directly)
+
+### Device Code Flow (Recommended)
+
+Most versatile method with 130+ pre-loaded Application IDs:
+
+1. Navigate to **Tokens** → **Authenticate**
+2. Select **Device Code Flow**
+3. Choose application (Office, Teams, Azure Portal, etc.)
+4. Complete browser authentication
+5. Tokens imported automatically
+
 
 ### ROPC Authentication
 
@@ -352,19 +353,6 @@ Service Principal authentication:
 - Full NGC token support for Windows Hello credential theft
 - PRT (Primary Refresh Token) extraction capabilities
 - Enhanced Conditional Access Policy risk scoring
-
----
-
-
-## Author
-
-**r3alm0m1x82 - safebreach.it**
-Purple Team & Security Researcher  
-[SafeBreach Academy](https://safebreach.it)
-
-**GitHub:** [@r3alm0m1x82](https://github.com/r3alm0m1x82)
-
-For security research collaboration or responsible disclosure, contact via GitHub.
 
 ---
 
