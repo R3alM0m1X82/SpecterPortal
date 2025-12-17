@@ -145,6 +145,8 @@ This tool is provided **for educational and authorized security testing purposes
 ### Entra ID Enumeration
 
 **Directory Intelligence:**
+<img width="2493" height="996" alt="image" src="https://github.com/user-attachments/assets/e4ff7962-78a6-4131-8de7-290ded80e4bf" />
+
 - Complete enumeration: Users, Groups, Devices, Contacts
 - Guest account identification with external domain tracking
 - On-premises sync status
@@ -153,6 +155,8 @@ This tool is provided **for educational and authorized security testing purposes
 - CSV/JSON export capabilities
 
 **Application Analysis:**
+<img width="2477" height="971" alt="image" src="https://github.com/user-attachments/assets/66d56a62-976e-4200-9d4c-e762a1c510e4" />
+
 - App Registration enumeration with owners
 - Service Principal analysis
 - **Managed Identity detection** (System/User-assigned)
@@ -175,8 +179,12 @@ This tool is provided **for educational and authorized security testing purposes
 
 
 **Conditional Access Policies:**
+<img width="2485" height="941" alt="image" src="https://github.com/user-attachments/assets/3d1fbf71-998a-40f6-9ba8-1c032507fff6" />
+
 - **Permission-less extraction** using legacy API technique
 - **Complete policy enumeration without Directory.Read permissions**
+<img width="2495" height="807" alt="image" src="https://github.com/user-attachments/assets/1c516a27-3ef6-4fb4-8d8f-5a2836e4085e" />
+
 - Policy conditions: users, groups, locations, platforms
 - Grant and session controls analysis
 - Policy state identification (Enabled/Disabled/Report-Only)
