@@ -286,6 +286,8 @@ cd ..
 ```bash
 python app.py
 ```
+<img width="1443" height="1033" alt="image" src="https://github.com/user-attachments/assets/bfd85427-8d70-4965-9089-a3419197f3b9" />
+
 Backend runs on `http://127.0.0.1:5000`
 
 **5. Start the frontend (Terminal 2):**
