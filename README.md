@@ -68,7 +68,6 @@ This tool is provided **for educational and authorized security testing purposes
 - SpecterBroker integration for Windows token extraction
 
 **Token Analysis:**
-<img width="886" height="867" alt="image" src="https://github.com/user-attachments/assets/2228a3b4-5a9c-464f-aa07-7421bdcd72ac" />
 
 - JWT decoding with claims visualization
 - Scope and permission analysis
@@ -78,6 +77,7 @@ This tool is provided **for educational and authorized security testing purposes
 - Expiration tracking with alerts
 
 ### Search & Pattern Detection
+<img width="1586" height="762" alt="image" src="https://github.com/user-attachments/assets/0222e68c-e450-4e1e-b383-cffbcaf2cdc4" />
 
 **Microsoft Search Integration:**
 - Cross-platform search: OneDrive, SharePoint, Emails
