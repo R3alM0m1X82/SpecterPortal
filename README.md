@@ -106,6 +106,8 @@ This tool is provided **for educational and authorized security testing purposes
 ### Microsoft 365 Operations
 
 **Email Management:**
+<img width="2482" height="1006" alt="image" src="https://github.com/user-attachments/assets/1e694e74-0d8b-4c4c-a1ca-d007cf52516e" />
+
 - Full folder access (Inbox, Sent, Drafts, Deleted, Junk, Custom)
 - HTML email composition with rich formatting
 - Reply/Forward with message threading
@@ -119,6 +121,8 @@ This tool is provided **for educational and authorized security testing purposes
 - Calendar manipulation capabilities
 
 **OneDrive:**
+<img width="2517" height="908" alt="image" src="https://github.com/user-attachments/assets/77a5eecd-cfac-42e7-a941-771996e29c27" />
+
 - Complete file/folder hierarchy navigation
 - Upload, download, rename, delete, move operations
 - Batch download with ZIP compression
