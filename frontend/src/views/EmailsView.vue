@@ -707,7 +707,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onActivated } from 'vue'
+import { ref, computed, onMounted, onActivated, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import EmailCard from '../components/EmailCard.vue'
 import HTMLEditor from '../components/HTMLEditor.vue'
@@ -1533,7 +1533,15 @@ onMounted(async () => {
 
 // Called when component is reactivated from keep-alive cache
 onActivated(async () => {
-  // loadEmails() will use cache if valid (< 3 min), or fetch fresh data if expired
+  // Clear caches to prevent showing previous user's data
+  // This happens when switching active tokens (e.g., kate.garrison -> abu.bakr)
+  emailCache.value = {}
+  eventsCache.value = { data: null, timestamp: null }
+  console.log('[CACHE] Cleared all caches on component activation')
+  
+  // Reload folders to update counts (fix for user switching)
+  await loadFolders()
+  // loadEmails() will fetch fresh data since cache was cleared
   await loadEmails()
 })
 </script>

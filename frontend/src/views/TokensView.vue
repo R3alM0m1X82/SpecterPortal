@@ -13,11 +13,21 @@
         >
           🗑️ Delete Selected ({{ selectedTokens.length }})
         </button>
-        <button @click="deleteExpired" :class="['btn', isDark ? 'btn-warning-outline-dark' : 'btn-warning-outline']">
-          ⏰ Delete Expired
+        <button 
+          @click="deleteExpired" 
+          :disabled="deletingExpired"
+          :class="['btn', isDark ? 'btn-warning-outline-dark' : 'btn-warning-outline', deletingExpired ? 'opacity-50 cursor-not-allowed' : '']"
+        >
+          <span v-if="deletingExpired">⏳ Deleting...</span>
+          <span v-else>⏰ Delete Expired</span>
         </button>
-        <button @click="deleteAll" :class="['btn', isDark ? 'btn-danger-outline-dark' : 'btn-danger-outline']">
-          🗑️ Delete All
+        <button 
+          @click="deleteAll" 
+          :disabled="deletingAll"
+          :class="['btn', isDark ? 'btn-danger-outline-dark' : 'btn-danger-outline', deletingAll ? 'opacity-50 cursor-not-allowed' : '']"
+        >
+          <span v-if="deletingAll">⏳ Deleting...</span>
+          <span v-else>🗑️ Delete All</span>
         </button>
         <button @click="loadTokens" :class="['btn', isDark ? 'btn-secondary-dark' : 'btn-secondary']">
           🔄 Refresh
@@ -475,6 +485,10 @@ const jwtError = ref('')
 const importingJwt = ref(false)
 const showAnalyzeModal = ref(false)
 
+// Delete loading states
+const deletingExpired = ref(false)
+const deletingAll = ref(false)
+
 const filteredTokens = computed(() => {
   let filtered = tokens.value
   
@@ -599,6 +613,8 @@ const deleteExpired = async () => {
     return
   }
   
+  deletingExpired.value = true
+  
   try {
     const response = await tokenAPI.deleteExpired()
     if (response.data.success) {
@@ -610,6 +626,8 @@ const deleteExpired = async () => {
   } catch (error) {
     console.error('Failed to delete expired tokens:', error)
     alert('Failed to delete expired tokens')
+  } finally {
+    deletingExpired.value = false
   }
 }
 
@@ -622,15 +640,40 @@ const deleteAll = async () => {
     return
   }
   
+  deletingAll.value = true
+  const totalTokens = tokens.value.length
+  let deletedCount = 0
+  
   try {
-    for (const token of tokens.value) {
-      await tokenAPI.delete(token.id)
+    // Batch delete in chunks of 10 to avoid overwhelming the server
+    const chunkSize = 10
+    const tokenChunks = []
+    
+    for (let i = 0; i < tokens.value.length; i += chunkSize) {
+      tokenChunks.push(tokens.value.slice(i, i + chunkSize))
     }
+    
+    // Process chunks sequentially, but delete within chunk in parallel
+    for (const chunk of tokenChunks) {
+      await Promise.all(
+        chunk.map(token => 
+          tokenAPI.delete(token.id).then(() => {
+            deletedCount++
+            console.log(`Deleted ${deletedCount}/${totalTokens} tokens`)
+          }).catch(err => {
+            console.error(`Failed to delete token ${token.id}:`, err)
+          })
+        )
+      )
+    }
+    
     await loadTokens()
-    alert('All tokens deleted successfully!')
+    alert(`Successfully deleted ${deletedCount}/${totalTokens} token(s)`)
   } catch (error) {
     console.error('Failed to delete all tokens:', error)
-    alert('Failed to delete all tokens')
+    alert(`Deleted ${deletedCount}/${totalTokens} tokens before error occurred`)
+  } finally {
+    deletingAll.value = false
   }
 }
 
