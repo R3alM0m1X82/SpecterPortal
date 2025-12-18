@@ -1,6 +1,6 @@
 """
 Token model for storing Microsoft OAuth tokens
-Enhanced with BrokerDecrypt support
+Enhanced with BrokerDecrypt support + SpecterBroker fields
 """
 from datetime import datetime
 from database import db
@@ -33,13 +33,19 @@ class Token(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     imported_from = db.Column(db.String(255), nullable=True)
     
-    # NEW: BrokerDecrypt fields
+    # BrokerDecrypt fields
     token_type = db.Column(db.String(20), default='access_token', index=True)
     source = db.Column(db.String(20), default='tbres', index=True)
     broker_cache_path = db.Column(db.Text, nullable=True)
     parent_token_id = db.Column(db.Integer, db.ForeignKey('tokens.id'), nullable=True, index=True)
     metadata_json = db.Column(db.Text, nullable=True)
     last_used_at = db.Column(db.DateTime, nullable=True)
+    
+    # NEW: SpecterBroker v1.2 fields
+    source_type = db.Column(db.String(20), nullable=True, index=True)  # AUTHORITY_FILE/PRT_FILE/UNKNOWN
+    is_prt_bound = db.Column(db.Boolean, default=False, index=True)    # PRT-bound refresh token flag
+    display_name = db.Column(db.String(255), nullable=True, index=True)  # Full user display name
+    classification = db.Column(db.String(20), nullable=True, index=True)  # FOCI/STANDALONE/PRT_BOUND
     
     # Relationships
     children = db.relationship('Token', backref=db.backref('parent', remote_side=[id]))
@@ -68,6 +74,11 @@ class Token(db.Model):
             'has_refresh_token': self.token_type == 'refresh_token',
             'is_expired': self.is_expired,
             'is_office_master': self.is_office_master,
+            # NEW: SpecterBroker v1.2 fields
+            'source_type': self.source_type,
+            'is_prt_bound': self.is_prt_bound,
+            'display_name': self.display_name,
+            'classification': self.classification,
         }
         
         # Return full token when include_sensitive=True
@@ -141,7 +152,7 @@ class Token(db.Model):
     
     @staticmethod
     def from_broker_data(broker_token_data, cache_file_path=None):
-        """Create Token from BrokerDecrypt JSON"""
+        """Create Token from BrokerDecrypt JSON with SpecterBroker v1.2 fields"""
         token_type = broker_token_data.get('type', 'access_token')
         
         # Map type
@@ -184,6 +195,25 @@ class Token(db.Model):
             except:
                 pass
         
+        # NEW: Extract SpecterBroker v1.2 fields
+        source_type = broker_token_data.get('source_type')  # AUTHORITY_FILE/PRT_FILE/UNKNOWN
+        is_prt_bound = broker_token_data.get('is_prt_bound', False)  # boolean
+        display_name = broker_token_data.get('display_name')  # Full user name
+        
+        # Calculate classification for Refresh Tokens
+        classification = None
+        if db_token_type == 'refresh_token':
+            # Classification logic:
+            # 1. PRT_BOUND if is_prt_bound=True
+            # 2. FOCI if client_id is FOCI-enabled (from client_ids.py)
+            # 3. STANDALONE otherwise
+            if is_prt_bound:
+                classification = 'PRT_BOUND'
+            elif is_foci_app(client_id):
+                classification = 'FOCI'
+            else:
+                classification = 'STANDALONE'
+        
         # Metadata
         metadata = {
             'login_url': broker_token_data.get('login_url'),
@@ -205,5 +235,10 @@ class Token(db.Model):
             source='broker',
             broker_cache_path=cache_file_path or broker_token_data.get('cache_path'),
             imported_from='BrokerDecrypt',
-            metadata_json=json.dumps(metadata) if metadata else None
+            metadata_json=json.dumps(metadata) if metadata else None,
+            # NEW: SpecterBroker v1.2 fields
+            source_type=source_type,
+            is_prt_bound=is_prt_bound,
+            display_name=display_name,
+            classification=classification
         )
