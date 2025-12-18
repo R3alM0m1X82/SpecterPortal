@@ -63,11 +63,35 @@
           FOCI
         </span>
 
+        <!-- NEW: Classification Badge (only for Refresh Tokens - hide if FOCI badge already visible) -->
+        <span
+          v-if="token.token_type === 'refresh_token' && token.classification && !token.is_foci"
+          :class="[
+            'px-2 py-1 text-xs font-semibold rounded-full border',
+            classificationBadgeClass
+          ]"
+          :title="classificationTooltip"
+        >
+          {{ classificationLabel }}
+        </span>
+
         <span
           class="px-3 py-1 text-xs font-semibold rounded-full"
           :class="sourceBadgeClass"
         >
           {{ sourceLabel }}
+        </span>
+
+        <!-- NEW: Source Type Badge (AUTHORITY_FILE / PRT_FILE) -->
+        <span
+          v-if="token.source_type"
+          :class="[
+            'px-2 py-1 text-xs font-semibold rounded-full border',
+            sourceTypeBadgeClass
+          ]"
+          :title="sourceTypeTooltip"
+        >
+          {{ sourceTypeLabel }}
         </span>
 
         <span
@@ -427,6 +451,78 @@ const sourceBadgeClass = computed(() => {
     'refresh': 'bg-cyan-100 text-cyan-700'
   }
   return classes[props.token.source] || 'bg-gray-100 text-gray-700'
+})
+
+// NEW: Source Type Badge (SpecterBroker v1.2)
+const sourceTypeLabel = computed(() => {
+  const labels = {
+    'AUTHORITY_FILE': 'AUTHORITY',
+    'PRT_FILE': 'PRT',
+    'UNKNOWN': 'UNKNOWN'
+  }
+  return labels[props.token.source_type] || props.token.source_type
+})
+
+const sourceTypeBadgeClass = computed(() => {
+  if (!props.token.source_type) return ''
+  
+  const colors = {
+    'AUTHORITY_FILE': props.isDark 
+      ? 'bg-green-900/50 text-green-300 border-green-700' 
+      : 'bg-green-50 text-green-700 border-green-200',
+    'PRT_FILE': props.isDark 
+      ? 'bg-orange-900/50 text-orange-300 border-orange-700' 
+      : 'bg-orange-50 text-orange-700 border-orange-200',
+    'UNKNOWN': props.isDark 
+      ? 'bg-gray-900/50 text-gray-300 border-gray-700' 
+      : 'bg-gray-50 text-gray-700 border-gray-200'
+  }
+  return colors[props.token.source_type] || colors['UNKNOWN']
+})
+
+const sourceTypeTooltip = computed(() => {
+  const tooltips = {
+    'AUTHORITY_FILE': 'Extracted from Authority cache file (a_*.def) - Standalone token',
+    'PRT_FILE': 'Extracted from PRT cache file (p_*.def) - May be device-bound',
+    'UNKNOWN': 'Source type unknown'
+  }
+  return tooltips[props.token.source_type] || 'Source type'
+})
+
+// NEW: Classification Badge (SpecterBroker v1.2)
+const classificationLabel = computed(() => {
+  const labels = {
+    'FOCI': 'FOCI',
+    'STANDALONE': 'Standalone',
+    'PRT_BOUND': 'PRT-Bound'
+  }
+  return labels[props.token.classification] || props.token.classification
+})
+
+const classificationBadgeClass = computed(() => {
+  if (!props.token.classification) return ''
+  
+  const colors = {
+    'FOCI': props.isDark 
+      ? 'bg-purple-900/50 text-purple-300 border-purple-700' 
+      : 'bg-purple-50 text-purple-700 border-purple-200',
+    'STANDALONE': props.isDark 
+      ? 'bg-blue-900/50 text-blue-300 border-blue-700' 
+      : 'bg-blue-50 text-blue-700 border-blue-200',
+    'PRT_BOUND': props.isDark 
+      ? 'bg-orange-900/50 text-orange-300 border-orange-700' 
+      : 'bg-orange-50 text-orange-700 border-orange-200'
+  }
+  return colors[props.token.classification] || ''
+})
+
+const classificationTooltip = computed(() => {
+  const tooltips = {
+    'FOCI': 'FOCI-enabled - Can exchange refresh token across Microsoft applications',
+    'STANDALONE': 'Standalone token - Cannot be exchanged with other applications',
+    'PRT_BOUND': 'PRT-bound token - Requires Primary Refresh Token and device context'
+  }
+  return tooltips[props.token.classification] || 'Token classification'
 })
 
 const tokenDisplayLabel = computed(() => {
