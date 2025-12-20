@@ -380,7 +380,7 @@ Your support enables:
 - 🎓 Educational content for the community
 
 See all [sponsorship tiers and benefits →](./SPONSORS.md)
-```
+
 ## 🙏 Credits - Inspiration & Research
 
 This tool is based on the inspiration of:
