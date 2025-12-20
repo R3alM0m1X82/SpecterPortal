@@ -368,15 +368,21 @@ Service Principal authentication:
 
 ---
 
-## Roadmap
+## 💙 Support This Project
 
-### Version 2.1
-- Full NGC token support for Windows Hello credential theft
-- PRT (Primary Refresh Token) extraction capabilities
-- Enhanced Conditional Access Policy risk scoring
+This project is developed with passion during nights and weekends alongside a full-time job. If you find it valuable, consider supporting its development:
+
+**[💙 Become a Sponsor](https://github.com/sponsors/R3alM0m1X82)** • **[☕ One-time donation via PayPal](https://paypal.me/mohammedbellala)**
+
+Your support enables:
+- ⚡ Faster feature development
+- 🛠️ Better tools and documentation
+- 🎓 Educational content for the community
+
+See all [sponsorship tiers and benefits →](./SPONSORS.md)
 
 ---
-
+```
 ## 🙏 Credits - Inspiration & Research
 
 This tool is based on the inspiration of:
