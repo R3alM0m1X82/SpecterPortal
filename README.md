@@ -183,7 +183,6 @@ This tool is provided **for educational and authorized security testing purposes
 
 **Conditional Access Policies:**
 <img width="2485" height="941" alt="image" src="https://github.com/user-attachments/assets/3d1fbf71-998a-40f6-9ba8-1c032507fff6" />
-
 - **Permission-less extraction** using legacy API technique
 - **Complete policy enumeration without Directory.Read permissions**
 <img width="2495" height="807" alt="image" src="https://github.com/user-attachments/assets/1c516a27-3ef6-4fb4-8d8f-5a2836e4085e" />
@@ -196,7 +195,6 @@ This tool is provided **for educational and authorized security testing purposes
 
 **Permission Analysis:**
 <img width="1974" height="1011" alt="image" src="https://github.com/user-attachments/assets/0008d9ee-54ca-4144-9e87-7c13dfa4a602" />
-
 - Role assignments per subscription (Owner, Contributor, Reader, custom)
 - Resource group permissions
 - Inherited vs direct assignments
@@ -213,28 +211,28 @@ This tool is provided **for educational and authorized security testing purposes
 - OS and configuration details
 
 **Storage Accounts:**
+<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
 - Storage enumeration across subscriptions
 - **Firewall rule analysis** (public vs restricted)
 - **Anonymous blob detection** for data exposure
 - Service configuration (Blob, File, Queue, Table)
 - Access tier and replication settings
-<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
 
 **Key Vaults:**
+<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
 - Vault enumeration with access policies
 - **Secret extraction** (with appropriate permissions)
 - **Certificate download** with private keys
 - Key metadata and operations
 - Access policy analysis per identity
-<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
 
 **Automation Accounts:**
+<img width="2520" height="946" alt="image" src="https://github.com/user-attachments/assets/1c91c707-2502-4aed-a091-6ea4ec611d8c" />
 - Runbook enumeration and source code access
 - **Runbook execution** capabilities
 - **Hybrid Worker Group abuse** for on-premises access
 - Automation credentials and variables
 - Schedule manipulation
-<img width="2520" height="946" alt="image" src="https://github.com/user-attachments/assets/1c91c707-2502-4aed-a091-6ea4ec611d8c" />
 
 **SQL Databases:** BETA
 - SQL Server and Database discovery
@@ -242,12 +240,15 @@ This tool is provided **for educational and authorized security testing purposes
 - Firewall rule enumeration
 - Credential recovery via Key Vault integration
 
-**App Services & Functions:** BETA
+**App Services:** BETA
 - Web app enumeration with runtime details
 - **Application settings extraction** (secrets, connection strings)
 - Deployment credential recovery
 - Managed Identity configuration
 
+**Function Apps:** COMING SOON
+
+**Azure Arc:** COMING SOON
 
 ### Advanced Capabilities
 
