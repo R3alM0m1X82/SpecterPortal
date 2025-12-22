@@ -195,21 +195,22 @@ This tool is provided **for educational and authorized security testing purposes
 ### Azure Resource Operations
 
 **Permission Analysis:**
+<img width="1974" height="1011" alt="image" src="https://github.com/user-attachments/assets/0008d9ee-54ca-4144-9e87-7c13dfa4a602" />
+
 - Role assignments per subscription (Owner, Contributor, Reader, custom)
 - Resource group permissions
 - Inherited vs direct assignments
 - Deny assignments detection
 - And more..
-- <img width="1974" height="1011" alt="image" src="https://github.com/user-attachments/assets/0008d9ee-54ca-4144-9e87-7c13dfa4a602" />
 
 
 **Virtual Machines:**
+<img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
 - VM inventory with status tracking
 - **Remote Command Execution** via Run Command API
 - **Managed Identity Token Extraction** from VM metadata endpoint
 - Power operations: Start, Stop, Restart, Deallocate
 - OS and configuration details
-<img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
 
 **Storage Accounts:**
 - Storage enumeration across subscriptions
