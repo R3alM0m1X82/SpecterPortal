@@ -270,6 +270,8 @@ This tool is provided **for educational and authorized security testing purposes
 - Raw JSON response inspection
 
 **Administrative Actions:**
+<img width="679" height="480" alt="image" src="https://github.com/user-attachments/assets/8a4b25f0-55a7-453f-8fbb-b9ab2793b6d9" />
+
 Requires appropriate permissions:
 - User creation and deletion
 - Password reset (including privileged accounts)
