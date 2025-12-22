@@ -315,7 +315,6 @@ pip install -r requirements.txt
 cd ..
 cd frontend
 npm install
-cd ..
 ```
 
 **4. Start the backend (Terminal 1):**
