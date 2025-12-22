@@ -33,6 +33,8 @@ from api.search import search_bp
 from api.advanced_queries import advanced_queries_bp
 from api.utils import utils_bp
 from services.token_service import TokenService
+from api.iam import iam_bp
+
 
 
 def create_app(config_class=Config):
@@ -78,6 +80,8 @@ def create_app(config_class=Config):
     app.register_blueprint(search_bp)
     app.register_blueprint(advanced_queries_bp)
     app.register_blueprint(utils_bp)
+    app.register_blueprint(iam_bp)
+
     
     @app.route('/api/health', methods=['GET'])
     def health_check():
