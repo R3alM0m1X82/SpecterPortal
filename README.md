@@ -23,7 +23,7 @@
 
 ## Overview
 
-**SpecterPortal** is an advanced post-exploitation framework designed for Red Team operations in Entra ID and Microsoft 365 environments. Unlike basic enumeration tools, SpecterPortal provides a **complete offensive platform** with token management, deep content analysis, resource abuse capabilities, and privilege escalation vectors.
+**SpecterPortal** is an advanced post-exploitation framework designed for Red Team operations in Entra ID, Azure and Microsoft 365 environments. Unlike basic enumeration tools, SpecterPortal provides a **complete offensive platform** with token management, deep content analysis, resource abuse capabilities, and privilege escalation vectors.
 
 **What makes SpecterPortal unique:**
 - FOCI token exchange across 36 Microsoft applications
