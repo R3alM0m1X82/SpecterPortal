@@ -211,6 +211,7 @@ def get_key_vaults():
     print(f"[KEY VAULTS] Processing {len(subscriptions)} subscription(s)")
     
     all_vaults = []
+    errors = []  # Track errors per subscription
     
     for sub in subscriptions:
         sub_id = sub['subscriptionId']
@@ -233,15 +234,36 @@ def get_key_vaults():
             error_msg = result.get('error', 'Unknown error')
             print(f"[KEY VAULTS] Error enumerating Key Vaults in '{sub_name}': {error_msg}")
             
+            # Track the error
+            errors.append({
+                'subscription': sub_name,
+                'error': error_msg
+            })
+            
             # Don't fail completely - just skip this subscription
             continue
     
     print(f"[KEY VAULTS] Total Key Vaults found: {len(all_vaults)}")
     
+    # If ALL subscriptions failed, return error
+    if len(errors) == len(subscriptions) and len(all_vaults) == 0:
+        # Extract first error message (usually they're all the same)
+        error_details = errors[0]['error'] if errors else 'Failed to enumerate Key Vaults'
+        print(f"[KEY VAULTS] ❌ All subscriptions failed: {error_details}")
+        
+        return jsonify({
+            'success': False,
+            'error': error_details,
+            'key_vaults': [],
+            'total': 0
+        }), 200  # Keep 200 for consistency with other endpoints
+    
+    # Partial success or full success
     return jsonify({
         'success': True,
         'key_vaults': all_vaults,
-        'total': len(all_vaults)
+        'total': len(all_vaults),
+        'errors': errors if errors else None  # Include partial errors if any
     })
 
 
