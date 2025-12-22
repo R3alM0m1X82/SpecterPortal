@@ -4,3 +4,6 @@ Flask-CORS==4.0.0
 requests==2.31.0
 PyJWT==2.8.0
 python-dotenv==1.0.0
+pyasn1>=0.2.3
+pycryptodomex
+impacket==0.12.0
