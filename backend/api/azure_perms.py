@@ -851,3 +851,256 @@ def resolve_principal(object_id):
             'success': False,
             'error': str(e)
         }), 500
+
+# ==================== GLOBAL ADMIN ELEVATION ====================
+
+@azure_perms_bp.route('/elevation-status', methods=['GET'])
+def get_elevation_status():
+    """
+    Check if current user has User Access Administrator at root scope (/)
+    
+    Returns:
+    {
+        "success": true,
+        "isGlobalAdmin": true/false,
+        "isElevated": true/false,
+        "roleAssignmentId": "..." (if elevated),
+        "userInfo": {
+            "objectId": "...",
+            "upn": "..."
+        }
+    }
+    """
+    try:
+        # Find ARM token
+        token, error_msg = find_token_for_audience('https://management.azure.com')
+        
+        if not token:
+            return jsonify({
+                'success': False,
+                'error': error_msg
+            }), 200
+        
+        # Check if token has Global Admin role (wid: 62e90394-69f5-4237-9190-012177145e10)
+        import jwt
+        decoded = jwt.decode(get_token_value(token), options={"verify_signature": False})
+        wids = decoded.get('wids', [])
+        is_global_admin = '62e90394-69f5-4237-9190-012177145e10' in wids
+        
+        user_oid = decoded.get('oid')
+        user_upn = decoded.get('upn')
+        
+        # Check if user has UAA role at root scope
+        headers = {
+            'Authorization': f'Bearer {get_token_value(token)}',
+            'Content-Type': 'application/json'
+        }
+        
+        # List role assignments at root scope
+        response = requests.get(
+            'https://management.azure.com/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01&$filter=atScope()',
+            headers=headers,
+            timeout=15
+        )
+        
+        if response.status_code != 200:
+            return jsonify({
+                'success': False,
+                'error': f'Failed to query role assignments: {response.status_code}'
+            }), 200
+        
+        assignments = response.json().get('value', [])
+        
+        # User Access Administrator role definition ID
+        uaa_role_id = '/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
+        
+        # Find if current user has UAA at root scope
+        elevated_assignment = None
+        for assignment in assignments:
+            if (assignment.get('properties', {}).get('scope') == '/' and
+                assignment.get('properties', {}).get('roleDefinitionId') == uaa_role_id and
+                assignment.get('properties', {}).get('principalId') == user_oid):
+                elevated_assignment = assignment
+                break
+        
+        return jsonify({
+            'success': True,
+            'isGlobalAdmin': is_global_admin,
+            'isElevated': elevated_assignment is not None,
+            'roleAssignmentId': elevated_assignment.get('name') if elevated_assignment else None,
+            'userInfo': {
+                'objectId': user_oid,
+                'upn': user_upn
+            }
+        })
+        
+    except Exception as e:
+        print("[ELEVATION-STATUS ERROR]", str(e))
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@azure_perms_bp.route('/elevate-access', methods=['POST'])
+def elevate_access():
+    """
+    Elevate Global Admin to User Access Administrator at root scope (/)
+    
+    Microsoft API: POST https://management.azure.com/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01
+    
+    Returns:
+    {
+        "success": true,
+        "message": "Access elevated successfully"
+    }
+    """
+    try:
+        # Find ARM token
+        token, error_msg = find_token_for_audience('https://management.azure.com')
+        
+        if not token:
+            return jsonify({
+                'success': False,
+                'error': error_msg
+            }), 200
+        
+        # Verify user is Global Admin
+        import jwt
+        decoded = jwt.decode(get_token_value(token), options={"verify_signature": False})
+        wids = decoded.get('wids', [])
+        is_global_admin = '62e90394-69f5-4237-9190-012177145e10' in wids
+        
+        if not is_global_admin:
+            return jsonify({
+                'success': False,
+                'error': 'User is not a Global Administrator. Elevation requires Global Admin role.'
+            }), 200
+        
+        # Call Microsoft elevation API
+        headers = {
+            'Authorization': f'Bearer {get_token_value(token)}',
+            'Content-Type': 'application/json'
+        }
+        
+        response = requests.post(
+            'https://management.azure.com/providers/Microsoft.Authorization/elevateAccess?api-version=2016-07-01',
+            headers=headers,
+            timeout=15
+        )
+        
+        if response.status_code == 200:
+            return jsonify({
+                'success': True,
+                'message': 'Access elevated successfully. You now have User Access Administrator role at root scope (/).'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': f'Elevation failed: HTTP {response.status_code}',
+                'details': response.text
+            }), 200
+        
+    except Exception as e:
+        print("[ELEVATE-ACCESS ERROR]", str(e))
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@azure_perms_bp.route('/elevate-access', methods=['DELETE'])
+def remove_elevation():
+    """
+    Remove User Access Administrator role assignment at root scope (/)
+    
+    Finds the role assignment and deletes it
+    
+    Returns:
+    {
+        "success": true,
+        "message": "Elevation removed successfully"
+    }
+    """
+    try:
+        # Find ARM token
+        token, error_msg = find_token_for_audience('https://management.azure.com')
+        
+        if not token:
+            return jsonify({
+                'success': False,
+                'error': error_msg
+            }), 200
+        
+        # Get current user's objectId
+        import jwt
+        decoded = jwt.decode(get_token_value(token), options={"verify_signature": False})
+        user_oid = decoded.get('oid')
+        
+        headers = {
+            'Authorization': f'Bearer {get_token_value(token)}',
+            'Content-Type': 'application/json'
+        }
+        
+        # List role assignments at root scope
+        response = requests.get(
+            'https://management.azure.com/providers/Microsoft.Authorization/roleAssignments?api-version=2022-04-01&$filter=atScope()',
+            headers=headers,
+            timeout=15
+        )
+        
+        if response.status_code != 200:
+            return jsonify({
+                'success': False,
+                'error': f'Failed to query role assignments: {response.status_code}'
+            }), 200
+        
+        assignments = response.json().get('value', [])
+        
+        # User Access Administrator role definition ID
+        uaa_role_id = '/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
+        
+        # Find the role assignment to delete
+        assignment_to_delete = None
+        for assignment in assignments:
+            if (assignment.get('properties', {}).get('scope') == '/' and
+                assignment.get('properties', {}).get('roleDefinitionId') == uaa_role_id and
+                assignment.get('properties', {}).get('principalId') == user_oid):
+                assignment_to_delete = assignment
+                break
+        
+        if not assignment_to_delete:
+            return jsonify({
+                'success': False,
+                'error': 'No elevated access found to remove'
+            }), 200
+        
+        # Delete the role assignment
+        assignment_id = assignment_to_delete.get('name')
+        delete_url = f'https://management.azure.com/providers/Microsoft.Authorization/roleAssignments/{assignment_id}?api-version=2022-04-01'
+        
+        delete_response = requests.delete(
+            delete_url,
+            headers=headers,
+            timeout=15
+        )
+        
+        if delete_response.status_code in [200, 204]:
+            return jsonify({
+                'success': True,
+                'message': 'Elevation removed successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': f'Failed to remove elevation: HTTP {delete_response.status_code}',
+                'details': delete_response.text
+            }), 200
+        
+    except Exception as e:
+        print("[REMOVE-ELEVATION ERROR]", str(e))
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
