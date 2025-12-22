@@ -356,10 +356,9 @@ Tokens → Import JSON → Select cache_export_*.json
 - Raw JWT (paste directly)
 
 ### Device Code Flow (Recommended)
-
-Most versatile method with 130+ pre-loaded Application IDs:
 <img width="520" height="588" alt="image" src="https://github.com/user-attachments/assets/469ddfcd-a976-4db0-9e75-f87954cc6101" />
 
+Most versatile method with 130+ pre-loaded Application IDs:
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **Device Code Flow**
 3. Choose application (Office, Teams, Azure Portal, etc.)
@@ -367,20 +366,18 @@ Most versatile method with 130+ pre-loaded Application IDs:
 5. Tokens imported automatically
 
 ### ROPC Authentication
-
-Username/password flow:
 <img width="510" height="598" alt="image" src="https://github.com/user-attachments/assets/cf492791-771e-45c6-9b9a-c4588c8882ed" />
 
+Username/password flow:
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **ROPC**
 3. Enter credentials
 4. May bypass certain MFA configurations
 
 ### Client Secret
-
-Service Principal authentication:
 <img width="510" height="588" alt="image" src="https://github.com/user-attachments/assets/753c32f8-8b26-4060-b7dd-c7ec4b3ef68f" />
 
+Service Principal authentication:
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **Client Secret**
 3. Provide Tenant ID, Client ID, Secret
