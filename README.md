@@ -134,12 +134,14 @@ This tool is provided **for educational and authorized security testing purposes
 - Permission analysis
 
 **SharePoint:**
+<img width="2483" height="941" alt="image" src="https://github.com/user-attachments/assets/51454bdd-97b4-49a9-8463-c30da063f186" />
 - Site discovery and access
 - Document library enumeration
 - Advanced file search
 - Content download with permission validation
 
 **Teams:**
+<img width="2182" height="924" alt="image" src="https://github.com/user-attachments/assets/3627a597-8e23-4f12-8b0a-1177671d3b28" />
 - Channel and Team enumeration
 - Message history retrieval (Graph + Skype APIs)
 - Participant lists and presence
@@ -171,7 +173,6 @@ This tool is provided **for educational and authorized security testing purposes
 
 **Privileged Access:**
 <img width="2489" height="960" alt="image" src="https://github.com/user-attachments/assets/c42000ae-babb-452e-ba0a-14c1b3aad4b3" />
-
 - Directory role enumeration with members
 - **Administrative Unit nested roles** (not visible in JWT wids)
 - Built-in vs custom role identification
@@ -258,6 +259,7 @@ This tool is provided **for educational and authorized security testing purposes
 ---
 
 ### Advanced Capabilities
+<img width="2044" height="590" alt="image" src="https://github.com/user-attachments/assets/309df797-8098-4efb-bedf-ee7c1a1c39c9" />
 
 **Custom API Queries:**
 - Direct Microsoft Graph queries
