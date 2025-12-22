@@ -65,6 +65,7 @@
               <th :class="['px-6 py-3 text-left text-xs font-medium uppercase tracking-wider', textTertiary]">Location</th>
               <th :class="['px-6 py-3 text-left text-xs font-medium uppercase tracking-wider', textTertiary]">Status</th>
               <th :class="['px-6 py-3 text-left text-xs font-medium uppercase tracking-wider', textTertiary]">Endpoints</th>
+              <th :class="['px-6 py-3 text-left text-xs font-medium uppercase tracking-wider', textTertiary]">Actions</th>
             </tr>
           </thead>
           <tbody :class="['divide-y', isDark ? 'divide-gray-700' : 'divide-gray-300']">
@@ -80,15 +81,20 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-8 w-8">
-                    <svg class="h-8 w-8" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 3.5C0 1.567 1.567 0 3.5 0h11C16.433 0 18 1.567 18 3.5v11c0 1.933-1.567 3.5-3.5 3.5h-11C1.567 18 0 16.433 0 14.5v-11z" fill="url(#storageIconGradient)"/>
+                    <!-- Storage Accounts Icon - OFFICIAL Microsoft Azure -->
+                    <svg class="h-8 w-8" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                       <defs>
-                        <linearGradient id="storageIconGradient" x1="9" y1="0" x2="9" y2="18" gradientUnits="userSpaceOnUse">
-                          <stop stop-color="#FFB900"/>
-                          <stop offset="1" stop-color="#F25022"/>
+                        <linearGradient id="storage-grad-table" x1="9" y1="15.83" x2="9" y2="5.79" gradientUnits="userSpaceOnUse">
+                          <stop offset="0" stop-color="#b3b3b3"/>
+                          <stop offset="0.26" stop-color="#c1c1c1"/>
+                          <stop offset="1" stop-color="#e6e6e6"/>
                         </linearGradient>
                       </defs>
-                      <path d="M4 5h10v2H4V5zm0 3h10v2H4V8zm0 3h10v2H4v-2z" fill="white"/>
+                      <path d="M.5,5.79h17a0,0,0,0,1,0,0v9.48a.57.57,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V5.79A0,0,0,0,1,.5,5.79Z" fill="url(#storage-grad-table)"/>
+                      <path d="M1.07,2.17H16.93a.57.57,0,0,1,.57.57V5.79a0,0,0,0,1,0,0H.5a0,0,0,0,1,0,0V2.73A.57.57,0,0,1,1.07,2.17Z" fill="#37c2b1"/>
+                      <path d="M2.81,6.89H15.18a.27.27,0,0,1,.26.27v1.4a.27.27,0,0,1-.26.27H2.81a.27.27,0,0,1-.26-.27V7.16A.27.27,0,0,1,2.81,6.89Z" fill="#fff"/>
+                      <path d="M2.82,9.68H15.19a.27.27,0,0,1,.26.27v1.41a.27.27,0,0,1-.26.27H2.82a.27.27,0,0,1-.26-.27V10A.27.27,0,0,1,2.82,9.68Z" fill="#37c2b1"/>
+                      <path d="M2.82,12.5H15.19a.27.27,0,0,1,.26.27v1.41a.27.27,0,0,1-.26.27H2.82a.27.27,0,0,1-.26-.27V12.77A.27.27,0,0,1,2.82,12.5Z" fill="#258277"/>
                     </svg>
                   </div>
                   <div class="ml-3">
@@ -114,6 +120,17 @@
                     <span :class="[textPlaceholder]">File:</span> {{ account.primaryEndpoints.file }}
                   </div>
                 </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm" @click.stop>
+                <button
+                  @click="openIAMModal(account)"
+                  class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs rounded transition-colors flex items-center gap-1"
+                >
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  IAM
+                </button>
               </td>
             </tr>
           </tbody>
@@ -431,14 +448,32 @@
         </div>
       </div>
     </div>
+    
+    <!-- IAM Manager Modal -->
+    <IAMManager
+      :is-open="iamModalOpen"
+      :resource-id="iamSelectedStorage?.id || ''"
+      :resource-name="iamSelectedStorage?.name || ''"
+      resource-type="Microsoft.Storage/storageAccounts"
+      :current-user-u-p-n="currentUserUPN || 'Unknown'"
+      :current-user-object-id="currentUserObjectId"
+      :is-dark="isDark"
+      @close="closeIAMModal"
+      @role-assigned="onRoleAssigned"
+      @role-removed="onRoleRemoved"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import IAMManager from '../components/IAMManager.vue'
 
 export default {
     name: 'StorageAccountsView',
+  components: {
+    IAMManager
+  },
   props: {
     isDark: {
       type: Boolean,
@@ -494,11 +529,17 @@ export default {
       showBlobModal: false,
       selectedContainer: null,
       containerBlobs: [],
-      loadingBlobs: false
+      loadingBlobs: false,
+      // IAM Manager
+      iamModalOpen: false,
+      iamSelectedStorage: null,
+      currentUserUPN: '',
+      currentUserObjectId: null
     }
   },
   mounted() {
     this.loadSubscriptions()
+    this.loadCurrentUser()  // Load user info for IAM
   },
   methods: {
     async loadSubscriptions() {
@@ -689,6 +730,42 @@ export default {
       this.showBlobModal = false
       this.selectedContainer = null
       this.containerBlobs = []
+    },
+    
+    // IAM Manager Methods
+    openIAMModal(storage) {
+      this.iamSelectedStorage = storage
+      this.iamModalOpen = true
+    },
+    
+    closeIAMModal() {
+      this.iamModalOpen = false
+      setTimeout(() => {
+        this.iamSelectedStorage = null
+      }, 300)
+    },
+    
+    async loadCurrentUser() {
+      try {
+        const response = await axios.get('http://localhost:5000/api/iam/current-user')
+        if (response.data.success && response.data.user) {
+          this.currentUserUPN = response.data.user.upn
+          this.currentUserObjectId = response.data.user.objectId
+          console.log('[IAM] Current user loaded:', this.currentUserUPN, this.currentUserObjectId)
+        }
+      } catch (err) {
+        console.error('Failed to load current user:', err)
+        this.currentUserUPN = 'Unknown'
+        this.currentUserObjectId = null
+      }
+    },
+    
+    onRoleAssigned() {
+      console.log('[IAM] Role assigned successfully on storage account')
+    },
+    
+    onRoleRemoved() {
+      console.log('[IAM] Role removed successfully from storage account')
     }
   }
 }

@@ -81,6 +81,9 @@
       <div class="details-header">
         <button @click="selectedVault = null" class="back-btn">← Back to List</button>
         <h2>{{ selectedVault.name }}</h2>
+        <button @click="openIAMModal" class="iam-btn">
+          🔐 IAM
+        </button>
       </div>
 
       <!-- Tabs Navigation -->
@@ -349,16 +352,35 @@
             No access policies configured. Click "Grant Self Access" to add permissions.
           </div>
         </div>
+
       </div>
     </div>
+
+    <!-- IAM Modal (fuori da vault-details-view) -->
+    <IAMManager
+      :is-open="iamModalOpen"
+      :resource-id="selectedVault?.id || ''"
+      :resource-name="selectedVault?.name || ''"
+      resource-type="Microsoft.KeyVault/vaults"
+      :current-user-u-p-n="currentUserUPN || 'Unknown'"
+      :current-user-object-id="currentUserObjectId"
+      :is-dark="isDark"
+      @close="closeIAMModal"
+      @role-assigned="onRoleAssigned"
+      @role-removed="onRoleRemoved"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import IAMManager from '../components/IAMManager.vue'
 
 export default {
   name: 'KeyVaultsView',
+  components: {
+    IAMManager
+  },
   props: {
     isDark: {
       type: Boolean,
@@ -404,7 +426,12 @@ export default {
       
       // Sprint 13: UPN Resolution
       principalInfo: {},
-      resolvingPrincipals: false
+      resolvingPrincipals: false,
+      
+      // IAM
+      iamModalOpen: false,
+      currentUserUPN: '',
+      currentUserObjectId: null
     }
   },
   methods: {
@@ -697,12 +724,46 @@ export default {
       navigator.clipboard.writeText(text).then(() => {
         alert('Copied to clipboard!')
       })
+    },
+    
+    // ==================== IAM ====================
+    
+    openIAMModal() {
+      this.iamModalOpen = true
+    },
+    
+    closeIAMModal() {
+      this.iamModalOpen = false
+    },
+    
+    async loadCurrentUser() {
+      try {
+        const response = await axios.get('http://localhost:5000/api/iam/current-user', {
+          withCredentials: true
+        })
+        
+        if (response.data.success && response.data.user) {
+          this.currentUserUPN = response.data.user.upn
+          this.currentUserObjectId = response.data.user.objectId
+        }
+      } catch (err) {
+        console.error('[IAM] Failed to load current user:', err)
+      }
+    },
+    
+    onRoleAssigned() {
+      console.log('[IAM] Role assigned successfully on Key Vault')
+    },
+    
+    onRoleRemoved() {
+      console.log('[IAM] Role removed successfully from Key Vault')
     }
   },
   mounted() {
     this.loadSubscriptions()
     // Enumerate ALL Key Vaults by default (red team scenario: may have resource-level access without subscription role)
     this.fetchKeyVaults()
+    this.loadCurrentUser()
   }
 }
 </script>
@@ -948,6 +1009,25 @@ export default {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.6);
   transform: translateX(-4px);
+}
+
+.iam-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  margin-left: auto;
+}
+
+.iam-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .details-header h2 {

@@ -279,6 +279,15 @@
                     >
                       Extract MI Token
                     </button>
+                    <button
+                      @click="openIAMModal(vm)"
+                      class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs rounded transition-colors flex items-center gap-1"
+                    >
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                      IAM
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -734,14 +743,32 @@
       <h3 :class="['text-lg font-semibold mb-2', textTertiary]">No Virtual Machines</h3>
       <p :class="[textPlaceholder]">No VMs found in this subscription</p>
     </div>
+
+    <!-- IAM Manager Modal -->
+    <IAMManager
+      :is-open="iamModalOpen"
+      :resource-id="iamSelectedVM?.id || ''"
+      :resource-name="iamSelectedVM?.name || ''"
+      resource-type="Microsoft.Compute/virtualMachines"
+      :current-user-u-p-n="currentUserUPN || 'Unknown'"
+      :current-user-object-id="currentUserObjectId"
+      :is-dark="isDark"
+      @close="closeIAMModal"
+      @role-assigned="onRoleAssigned"
+      @role-removed="onRoleRemoved"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import IAMManager from '../components/IAMManager.vue'
 
 export default {
   name: 'VirtualMachinesView',
+  components: {
+    IAMManager
+  },
   props: {
     isDark: {
       type: Boolean,
@@ -830,11 +857,17 @@ export default {
       
       // Security Scan
       scanResults: null,
-      scanLoading: false
+      scanLoading: false,
+      
+      // IAM Manager
+      iamModalOpen: false,
+      iamSelectedVM: null,
+      currentUserObjectId: null
     }
   },
   mounted() {
     this.loadSubscriptions()
+    this.loadCurrentUser()  // Load user info for IAM
   },
   beforeUnmount() {
     this.stopStatusPolling()
@@ -1224,6 +1257,47 @@ export default {
       if (state === 'stopped' || state === 'deallocated') return 'bg-red-900 text-red-300'
       if (state.includes('starting') || state.includes('stopping') || state.includes('deallocating')) return 'bg-yellow-900 text-yellow-300'
       return 'bg-gray-700 text-gray-300'
+    },
+    
+    // IAM Manager Methods
+    openIAMModal(vm) {
+      this.iamSelectedVM = vm
+      this.iamModalOpen = true
+    },
+    
+    closeIAMModal() {
+      this.iamModalOpen = false
+      // Don't clear iamSelectedVM immediately to avoid flickering during modal close animation
+      setTimeout(() => {
+        this.iamSelectedVM = null
+      }, 300)
+    },
+    
+    async loadCurrentUser() {
+      try {
+        // Call IAM endpoint to get current user info from ARM token
+        const response = await axios.get('http://localhost:5000/api/iam/current-user')
+        if (response.data.success && response.data.user) {
+          this.currentUserUPN = response.data.user.upn
+          this.currentUserObjectId = response.data.user.objectId
+          console.log('[IAM] Current user loaded:', this.currentUserUPN, this.currentUserObjectId)
+        }
+      } catch (err) {
+        console.error('Failed to load current user:', err)
+        // Set defaults if fails
+        this.currentUserUPN = 'Unknown'
+        this.currentUserObjectId = null
+      }
+    },
+    
+    onRoleAssigned() {
+      console.log('[IAM] Role assigned successfully')
+      // Could refresh VM list or show notification
+    },
+    
+    onRoleRemoved() {
+      console.log('[IAM] Role removed successfully')
+      // Could refresh VM list or show notification
     }
   }
 }

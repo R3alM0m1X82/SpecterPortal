@@ -83,6 +83,73 @@
         </button>
       </div>
 
+      <!-- Global Admin Elevation Card -->
+      <div v-if="elevationStatus && elevationStatus.isGlobalAdmin" class="mb-6 rounded-lg shadow-md p-6 border-2" 
+           :class="elevationStatus.isElevated 
+             ? (isDark ? 'bg-green-900/20 border-green-700' : 'bg-green-50 border-green-300')
+             : (isDark ? 'bg-blue-900/20 border-blue-700' : 'bg-blue-50 border-blue-300')">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="flex items-center mb-2">
+              <span class="text-2xl mr-3">{{ elevationStatus.isElevated ? '🔓' : '🔒' }}</span>
+              <h3 class="text-lg font-bold" :class="isDark ? 'text-white' : 'text-gray-800'">
+                Global Admin Elevation
+              </h3>
+            </div>
+            <p class="text-sm mb-3" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+              <strong>User:</strong> {{ elevationStatus.userInfo?.upn || 'Unknown' }}
+            </p>
+            <p class="text-sm mb-4" :class="isDark ? 'text-gray-400' : 'text-gray-600'">
+              {{ elevationStatus.isElevated 
+                ? '✅ You have elevated access as User Access Administrator at root scope (/). You can manage IAM across all subscriptions and resources.'
+                : '⚠️ You are a Global Administrator but not elevated. Click below to elevate your access to User Access Administrator at root scope (/).' 
+              }}
+            </p>
+            
+            <!-- Success/Error messages -->
+            <div v-if="elevationSuccess" class="mb-3 p-3 rounded-lg" :class="isDark ? 'bg-green-900/30 text-green-300' : 'bg-green-100 text-green-800'">
+              ✓ {{ elevationSuccess }}
+            </div>
+            <div v-if="elevationError" class="mb-3 p-3 rounded-lg" :class="isDark ? 'bg-red-900/30 text-red-300' : 'bg-red-100 text-red-800'">
+              ⚠️ {{ elevationError }}
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="flex space-x-3">
+              <button 
+                v-if="!elevationStatus.isElevated"
+                @click="elevateAccess" 
+                :disabled="elevationLoading"
+                class="px-6 py-2 rounded-lg font-semibold transition-colors"
+                :class="elevationLoading 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : (isDark ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-600 text-white hover:bg-blue-700')">
+                {{ elevationLoading ? '⏳ Processing...' : '🔓 Elevate Access' }}
+              </button>
+              <button 
+                v-if="elevationStatus.isElevated"
+                @click="removeElevation" 
+                :disabled="elevationLoading"
+                class="px-6 py-2 rounded-lg font-semibold transition-colors"
+                :class="elevationLoading 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : (isDark ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-red-600 text-white hover:bg-red-700')">
+                {{ elevationLoading ? '⏳ Processing...' : '🔒 Remove Elevation' }}
+              </button>
+              <button 
+                @click="checkElevationStatus" 
+                :disabled="elevationLoading"
+                class="px-6 py-2 rounded-lg font-semibold transition-colors"
+                :class="elevationLoading 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : (isDark ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-200 text-gray-800 hover:bg-gray-300')">
+                🔄 Check Status
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Subscription Filters -->
       <div v-if="!loading && subscriptions.length > 0" class="mb-6 rounded-lg shadow-md p-4" :class="isDark ? 'bg-gray-800' : 'bg-white'">
         <h3 class="text-sm font-semibold mb-3" :class="isDark ? 'text-gray-300' : 'text-gray-700'">Filter by Subscription:</h3>
@@ -658,6 +725,12 @@ const effectivePermissions = ref([])
 const searchEffective = ref('')
 const filterResourceType = ref('')
 
+// Global Admin Elevation
+const elevationLoading = ref(false)
+const elevationStatus = ref(null) // { isGlobalAdmin, isElevated, userInfo }
+const elevationError = ref(null)
+const elevationSuccess = ref(null)
+
 // Check ARM token
 const checkARMToken = async () => {
   try {
@@ -1062,9 +1135,86 @@ const getAssignmentIdShort = (id) => {
   return parts[parts.length - 1]
 }
 
+// Global Admin Elevation functions
+const checkElevationStatus = async () => {
+  elevationLoading.value = true
+  elevationError.value = null
+  
+  try {
+    const response = await axios.get('http://localhost:5000/api/azure/permissions/elevation-status')
+    
+    if (response.data.success) {
+      elevationStatus.value = {
+        isGlobalAdmin: response.data.isGlobalAdmin,
+        isElevated: response.data.isElevated,
+        roleAssignmentId: response.data.roleAssignmentId,
+        userInfo: response.data.userInfo
+      }
+    } else {
+      elevationError.value = response.data.error || 'Failed to check elevation status'
+    }
+  } catch (err) {
+    console.error('Failed to check elevation status:', err)
+    elevationError.value = 'Failed to connect to server'
+  } finally {
+    elevationLoading.value = false
+  }
+}
+
+const elevateAccess = async () => {
+  elevationLoading.value = true
+  elevationError.value = null
+  elevationSuccess.value = null
+  
+  try {
+    const response = await axios.post('http://localhost:5000/api/azure/permissions/elevate-access')
+    
+    if (response.data.success) {
+      elevationSuccess.value = 'Access elevated successfully! You now have User Access Administrator role at root scope.'
+      await checkElevationStatus()
+      await loadMyPermissions(true) // Reload permissions to show new role
+    } else {
+      elevationError.value = response.data.error || 'Failed to elevate access'
+    }
+  } catch (err) {
+    console.error('Failed to elevate access:', err)
+    elevationError.value = 'Failed to connect to server'
+  } finally {
+    elevationLoading.value = false
+  }
+}
+
+const removeElevation = async () => {
+  if (!confirm('Remove elevated access? This will revoke your User Access Administrator role at root scope.')) {
+    return
+  }
+  
+  elevationLoading.value = true
+  elevationError.value = null
+  elevationSuccess.value = null
+  
+  try {
+    const response = await axios.delete('http://localhost:5000/api/azure/permissions/elevate-access')
+    
+    if (response.data.success) {
+      elevationSuccess.value = 'Elevation removed successfully!'
+      await checkElevationStatus()
+      await loadMyPermissions(true) // Reload permissions
+    } else {
+      elevationError.value = response.data.error || 'Failed to remove elevation'
+    }
+  } catch (err) {
+    console.error('Failed to remove elevation:', err)
+    elevationError.value = 'Failed to connect to server'
+  } finally {
+    elevationLoading.value = false
+  }
+}
+
 onMounted(() => {
   checkARMToken()
   loadMyPermissions()
+  checkElevationStatus() // Check elevation status on mount
 })
 </script>
 
