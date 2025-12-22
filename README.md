@@ -372,7 +372,8 @@ Service Principal authentication:
 
 This project is developed with passion during nights and weekends alongside a full-time job. If you find it valuable, consider supporting its development:
 
-**[💙 Become a Sponsor](https://github.com/sponsors/R3alM0m1X82)** • **[☕ One-time donation via PayPal](https://paypal.me/mohammedbellala)**
+[![Sponsor](https://img.shields.io/badge/💙_Become_a_Sponsor-blue?style=for-the-badge)](https://github.com/sponsors/R3alM0m1X82)
+[![PayPal](https://img.shields.io/badge/☕_PayPal_Donation-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/mohammedbellala)
 
 Your support enables:
 - ⚡ Faster feature development
