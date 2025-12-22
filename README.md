@@ -195,48 +195,45 @@ This tool is provided **for educational and authorized security testing purposes
 ### Azure Resource Operations
 
 **Permission Analysis:**
-<img width="1828" height="1007" alt="image" src="https://github.com/user-attachments/assets/bf6522ac-39a7-4ad0-84bc-a8463cbfecb5" />
-
 - Role assignments per subscription (Owner, Contributor, Reader, custom)
 - Resource group permissions
 - Inherited vs direct assignments
 - Deny assignments detection
+- And more..
+- <img width="1974" height="1011" alt="image" src="https://github.com/user-attachments/assets/0008d9ee-54ca-4144-9e87-7c13dfa4a602" />
+
 
 **Virtual Machines:**
-<img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
-
 - VM inventory with status tracking
 - **Remote Command Execution** via Run Command API
 - **Managed Identity Token Extraction** from VM metadata endpoint
 - Power operations: Start, Stop, Restart, Deallocate
 - OS and configuration details
+<img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
 
 **Storage Accounts:**
-<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
-
 - Storage enumeration across subscriptions
 - **Firewall rule analysis** (public vs restricted)
 - **Anonymous blob detection** for data exposure
 - Service configuration (Blob, File, Queue, Table)
 - Access tier and replication settings
+<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
 
 **Key Vaults:**
-<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
-
 - Vault enumeration with access policies
 - **Secret extraction** (with appropriate permissions)
 - **Certificate download** with private keys
 - Key metadata and operations
 - Access policy analysis per identity
+<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
 
 **Automation Accounts:**
-<img width="2520" height="946" alt="image" src="https://github.com/user-attachments/assets/1c91c707-2502-4aed-a091-6ea4ec611d8c" />
-
 - Runbook enumeration and source code access
 - **Runbook execution** capabilities
 - **Hybrid Worker Group abuse** for on-premises access
 - Automation credentials and variables
 - Schedule manipulation
+<img width="2520" height="946" alt="image" src="https://github.com/user-attachments/assets/1c91c707-2502-4aed-a091-6ea4ec611d8c" />
 
 **SQL Databases:** BETA
 - SQL Server and Database discovery
