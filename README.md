@@ -195,12 +195,16 @@ This tool is provided **for educational and authorized security testing purposes
 ### Azure Resource Operations
 
 **Permission Analysis:**
+<img width="1828" height="1007" alt="image" src="https://github.com/user-attachments/assets/bf6522ac-39a7-4ad0-84bc-a8463cbfecb5" />
+
 - Role assignments per subscription (Owner, Contributor, Reader, custom)
 - Resource group permissions
 - Inherited vs direct assignments
 - Deny assignments detection
 
 **Virtual Machines:**
+<img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
+
 - VM inventory with status tracking
 - **Remote Command Execution** via Run Command API
 - **Managed Identity Token Extraction** from VM metadata endpoint
@@ -208,6 +212,8 @@ This tool is provided **for educational and authorized security testing purposes
 - OS and configuration details
 
 **Storage Accounts:**
+<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
+
 - Storage enumeration across subscriptions
 - **Firewall rule analysis** (public vs restricted)
 - **Anonymous blob detection** for data exposure
@@ -215,6 +221,8 @@ This tool is provided **for educational and authorized security testing purposes
 - Access tier and replication settings
 
 **Key Vaults:**
+<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
+
 - Vault enumeration with access policies
 - **Secret extraction** (with appropriate permissions)
 - **Certificate download** with private keys
@@ -222,19 +230,21 @@ This tool is provided **for educational and authorized security testing purposes
 - Access policy analysis per identity
 
 **Automation Accounts:**
+<img width="2520" height="946" alt="image" src="https://github.com/user-attachments/assets/1c91c707-2502-4aed-a091-6ea4ec611d8c" />
+
 - Runbook enumeration and source code access
 - **Runbook execution** capabilities
 - **Hybrid Worker Group abuse** for on-premises access
 - Automation credentials and variables
 - Schedule manipulation
 
-**SQL Databases:** NOT Complete
+**SQL Databases:** BETA
 - SQL Server and Database discovery
 - Connection string construction
 - Firewall rule enumeration
 - Credential recovery via Key Vault integration
 
-**App Services & Functions:** NOT Complete
+**App Services & Functions:** BETA
 - Web app enumeration with runtime details
 - **Application settings extraction** (secrets, connection strings)
 - Deployment credential recovery
@@ -342,6 +352,7 @@ Tokens → Import JSON → Select cache_export_*.json
 ### Device Code Flow (Recommended)
 
 Most versatile method with 130+ pre-loaded Application IDs:
+<img width="520" height="588" alt="image" src="https://github.com/user-attachments/assets/469ddfcd-a976-4db0-9e75-f87954cc6101" />
 
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **Device Code Flow**
@@ -353,6 +364,8 @@ Most versatile method with 130+ pre-loaded Application IDs:
 ### ROPC Authentication
 
 Username/password flow:
+<img width="510" height="598" alt="image" src="https://github.com/user-attachments/assets/cf492791-771e-45c6-9b9a-c4588c8882ed" />
+
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **ROPC**
 3. Enter credentials
@@ -361,6 +374,8 @@ Username/password flow:
 ### Client Secret
 
 Service Principal authentication:
+<img width="510" height="588" alt="image" src="https://github.com/user-attachments/assets/753c32f8-8b26-4060-b7dd-c7ec4b3ef68f" />
+
 1. Navigate to **Tokens** → **Authenticate**
 2. Select **Client Secret**
 3. Provide Tenant ID, Client ID, Secret
