@@ -312,6 +312,7 @@ pip install -r requirements.txt
 
 **3. Install Node.js dependencies:**
 ```bash
+cd ..
 cd frontend
 npm install
 cd ..
@@ -319,6 +320,8 @@ cd ..
 
 **4. Start the backend (Terminal 1):**
 ```bash
+cd ..
+cd backend
 python app.py
 ```
 <img width="1443" height="1033" alt="image" src="https://github.com/user-attachments/assets/bfd85427-8d70-4965-9089-a3419197f3b9" />
