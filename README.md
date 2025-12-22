@@ -397,8 +397,6 @@ Your support enables:
 - 🛠️ Better tools and documentation
 - 🎓 Educational content for the community
 
-See all [[sponsorship tiers and benefits →](https://github.com/sponsors/R3alM0m1X82)]
-
 ---
 
 ## 🙏 Credits - Inspiration & Research
