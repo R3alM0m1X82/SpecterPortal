@@ -10,9 +10,22 @@
 
     <!-- Database Management Section -->
     <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-4" :class="isDark ? 'text-white' : 'text-gray-800'">
-        🗄️ Database Management
-      </h2>
+      <div class="flex items-center gap-3 mb-6">
+        <!-- Database Icon SVG -->
+        <div class="flex-shrink-0 w-8 h-8">
+          <svg id="database-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" class="w-full h-full">
+            <path d="M1.155,4.93v.512L9,9.868l7.006-3.957,0,1.6L9,11.491,1.55,7.258l-.395.22V10.54L9,14.955l7.006-3.942,0,1.586L9,16.581,1.55,12.347l-.395.22v.519L9,17.5l7.845-4.414V10.021l-.4-.218L9,14.036,1.992,10.054V8.476L9,12.414,16.845,8V4.978l-.4-.219L9,8.993,2.352,5.215,9,1.46l5.476,3.094.479-.269V3.863L9,.5Z" fill="#ff3621"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold" :class="isDark ? 'text-white' : 'text-gray-800'">
+            Database Management
+          </h2>
+          <p class="text-sm mt-0.5" :class="isDark ? 'text-gray-400' : 'text-gray-500'">
+            Manage, backup, and optimize your SpecterPortal database
+          </p>
+        </div>
+      </div>
       
       <!-- Current Database Info Card -->
       <div class="rounded-lg shadow-md p-6 mb-6" :class="isDark ? 'bg-gray-800' : 'bg-white'">
@@ -82,48 +95,48 @@
         <button
           @click="backupDatabase"
           :disabled="actionLoading"
-          class="p-4 rounded-lg shadow-md text-left transition-all hover:shadow-lg"
-          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-white hover:bg-gray-50'"
+          class="group p-5 rounded-lg shadow-md text-left transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+          :class="isDark ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700 hover:border-gray-600' : 'bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300'"
         >
-          <div class="text-2xl mb-2">💾</div>
-          <h4 class="font-semibold" :class="isDark ? 'text-white' : 'text-gray-800'">Backup Database</h4>
-          <p class="text-xs mt-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Create a timestamped backup</p>
+          <div class="text-3xl mb-3 transition-transform group-hover:scale-110">💾</div>
+          <h4 class="font-semibold mb-1" :class="isDark ? 'text-white' : 'text-gray-800'">Backup Database</h4>
+          <p class="text-xs" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Create a timestamped backup</p>
         </button>
         
         <!-- Download -->
         <button
           @click="downloadDatabase"
           :disabled="actionLoading"
-          class="p-4 rounded-lg shadow-md text-left transition-all hover:shadow-lg"
-          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-white hover:bg-gray-50'"
+          class="group p-5 rounded-lg shadow-md text-left transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+          :class="isDark ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700 hover:border-gray-600' : 'bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300'"
         >
-          <div class="text-2xl mb-2">📥</div>
-          <h4 class="font-semibold" :class="isDark ? 'text-white' : 'text-gray-800'">Download Database</h4>
-          <p class="text-xs mt-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Export .db file</p>
+          <div class="text-3xl mb-3 transition-transform group-hover:scale-110">📥</div>
+          <h4 class="font-semibold mb-1" :class="isDark ? 'text-white' : 'text-gray-800'">Download Database</h4>
+          <p class="text-xs" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Export .db file</p>
         </button>
         
         <!-- Optimize -->
         <button
           @click="vacuumDatabase"
           :disabled="actionLoading"
-          class="p-4 rounded-lg shadow-md text-left transition-all hover:shadow-lg"
-          :class="isDark ? 'bg-gray-800 hover:bg-gray-750' : 'bg-white hover:bg-gray-50'"
+          class="group p-5 rounded-lg shadow-md text-left transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+          :class="isDark ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700 hover:border-gray-600' : 'bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300'"
         >
-          <div class="text-2xl mb-2">⚡</div>
-          <h4 class="font-semibold" :class="isDark ? 'text-white' : 'text-gray-800'">Optimize Database</h4>
-          <p class="text-xs mt-1" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Run VACUUM to reclaim space</p>
+          <div class="text-3xl mb-3 transition-transform group-hover:scale-110">⚡</div>
+          <h4 class="font-semibold mb-1" :class="isDark ? 'text-white' : 'text-gray-800'">Optimize Database</h4>
+          <p class="text-xs" :class="isDark ? 'text-gray-400' : 'text-gray-500'">Run VACUUM to reclaim space</p>
         </button>
         
         <!-- Reset (Danger) -->
         <button
           @click="showResetModal = true"
           :disabled="actionLoading"
-          class="p-4 rounded-lg shadow-md text-left transition-all hover:shadow-lg border-2 border-red-500"
+          class="group p-5 rounded-lg shadow-md text-left transition-all hover:shadow-xl hover:-translate-y-0.5 border-2 border-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
           :class="isDark ? 'bg-red-900/30 hover:bg-red-900/50' : 'bg-red-50 hover:bg-red-100'"
         >
-          <div class="text-2xl mb-2">🗑️</div>
-          <h4 class="font-semibold text-red-500">Reset Database</h4>
-          <p class="text-xs mt-1" :class="isDark ? 'text-red-400' : 'text-red-600'">Delete all data</p>
+          <div class="text-3xl mb-3 transition-transform group-hover:scale-110">🗑️</div>
+          <h4 class="font-semibold text-red-500 mb-1">Reset Database</h4>
+          <p class="text-xs" :class="isDark ? 'text-red-400' : 'text-red-600'">Delete all data</p>
         </button>
       </div>
       

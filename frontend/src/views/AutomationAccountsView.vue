@@ -253,63 +253,162 @@
               <p :class="[textSecondary]">No Hybrid Worker Groups found in this automation account</p>
             </div>
 
-            <div v-else class="space-y-4">
+            <div v-else class="space-y-6">
+              <!-- Hybrid Worker Group Card -->
               <div 
                 v-for="group in hybridWorkerGroups" 
                 :key="group.id"
-                :class="[bgSecondary, borderSecondary, 'p-4 rounded-lg border']"
+                :class="[
+                  bgSecondary, 
+                  borderSecondary, 
+                  'rounded-xl border-2 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl'
+                ]"
               >
-                <div class="flex items-center justify-between mb-2">
-                  <div class="flex-1">
-                    <h4 :class="['font-semibold', textPrimary]">{{ group.name }}</h4>
-                    <p :class="['text-sm', textSecondary]">Type: {{ group.groupType || 'User' }}</p>
-                  </div>
-                  
-                  <button
-                    @click="toggleWorkerGroup(group)"
-                    class="text-blue-500 hover:text-blue-400 text-sm flex items-center space-x-1 transition-colors"
-                  >
-                    <span>{{ expandedGroups.includes(group.name) ? 'Hide Workers' : 'Show Workers' }}</span>
-                    <svg 
-                      class="w-4 h-4 transition-transform" 
-                      :class="{ 'rotate-180': expandedGroups.includes(group.name) }"
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
+                <!-- Group Header -->
+                <div :class="[isDark ? 'bg-gray-700/50' : 'bg-gray-100', 'px-6 py-4 border-b', borderSecondary]">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                      <!-- Icon -->
+                      <div :class="[
+                        isDark ? 'bg-blue-900/30 text-blue-400' : 'bg-blue-100 text-blue-600',
+                        'w-12 h-12 rounded-lg flex items-center justify-center'
+                      ]">
+                        <!-- Hybrid Connectivity Hub Icon - OFFICIAL Microsoft Azure -->
+                        <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18"><defs><linearGradient id="uuid-d431b8f0" x1="11.079" y1="17.397" x2="2.392" y2="4.224" gradientTransform="translate(0 20) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0fafff"/><stop offset="1" stop-color="#2764e7"/></linearGradient><linearGradient id="uuid-fbb395b9" x1="11.079" y1="17.397" x2="2.392" y2="4.224" gradientTransform="translate(0 20) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0094f0"/><stop offset="1" stop-color="#2052cb"/></linearGradient><linearGradient id="uuid-1d01284c" x1="7.926" y1=".897" x2="6.275" y2="12.951" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d8f7ff"/><stop offset="1" stop-color="#8cd0ff"/></linearGradient><linearGradient id="uuid-2ec8b26d" x1="11.615" y1="8.885" x2="11.615" y2="-.136" gradientTransform="translate(0 20) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d8f7ff"/><stop offset="1" stop-color="#83b9f9"/></linearGradient></defs><path d="M1.604.125C.787.125.125.787.125,1.604v14.792c0,.817.662,1.479,1.479,1.479h10.513c.817,0,1.479-.662,1.479-1.479V7.626c0-.817-.662-1.479-1.479-1.479h-1.532V1.604c0-.817-.662-1.479-1.479-1.479H1.604Z" fill="url(#uuid-d431b8f0)"/><path d="M9.109,16.851h3.008c.251,0,.455-.204.455-.455V7.626c0-.251-.204-.455-.455-.455h-1.532c-.566,0-1.024-.459-1.024-1.024V1.604c0-.251-.204-.455-.455-.455H1.604c-.251,0-.455.204-.455.455v14.792c0,.251.204.455.455.455h7.505ZM9.116,17.875h3c.817,0,1.479-.662,1.479-1.479V7.626c0-.817-.662-1.479-1.479-1.479h-1.532V1.604c0-.817-.662-1.479-1.479-1.479H1.604C.787.125.125.787.125,1.604v14.792c0,.817.662,1.479,1.479,1.479h7.512Z" fill="url(#uuid-fbb395b9)" fill-rule="evenodd"/><path d="M4.246,14.336c0-.408.331-.74.74-.74h3.592c.408,0,.74.331.74.74v3.539h-5.071v-3.539Z" fill="#fff"/><path d="M3.612,2.344c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM7.098,2.344c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM7.098,5.83c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM7.098,9.317c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM10.585,9.317c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM3.612,5.83c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109ZM3.612,9.317c-.613,0-1.109.497-1.109,1.109s.497,1.109,1.109,1.109,1.109-.497,1.109-1.109-.497-1.109-1.109-1.109Z" fill="url(#uuid-1d01284c)"/><path d="M7.732,17.87c-1.327-.082-2.377-1.184-2.377-2.531,0-1.375,1.094-2.494,2.46-2.535.364-1.721,1.892-3.012,3.721-3.012s3.357,1.291,3.721,3.013c.027,0,.055-.001.082-.001,1.4,0,2.536,1.135,2.536,2.536s-1.135,2.536-2.536,2.536h-7.607v-.005Z" fill="url(#uuid-2ec8b26d)"/></svg>
+                      </div>
+                      
+                      <!-- Group Info -->
+                      <div>
+                        <h4 :class="['text-xl font-bold', textPrimary]">{{ group.name }}</h4>
+                        <div class="flex items-center gap-3 mt-1">
+                          <span :class="[
+                            'px-2.5 py-0.5 rounded-full text-xs font-semibold',
+                            isDark ? 'bg-purple-900/30 text-purple-300' : 'bg-purple-100 text-purple-700'
+                          ]">
+                            {{ group.groupType || 'System' }}
+                          </span>
+                          <span :class="['text-sm', textSecondary]">
+                            {{ workersCache[group.name]?.length || 0 }} worker(s)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Expand/Collapse Button -->
+                    <button
+                      @click="toggleWorkerGroup(group)"
+                      :class="[
+                        'px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200',
+                        'flex items-center gap-2',
+                        isDark 
+                          ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-900/50' 
+                          : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                      ]"
                     >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
+                      <span>{{ expandedGroups.includes(group.name) ? 'Hide Workers' : 'Show Workers' }}</span>
+                      <svg 
+                        class="w-5 h-5 transition-transform duration-200" 
+                        :class="{ 'rotate-180': expandedGroups.includes(group.name) }"
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
                 <!-- Workers List (Expandable) -->
-                <div v-if="expandedGroups.includes(group.name)" class="mt-4 space-y-2">
-                  <div v-if="!workersCache[group.name]" class="text-center py-4">
-                    <svg class="animate-spin h-6 w-6 mx-auto text-blue-500" fill="none" viewBox="0 0 24 24">
+                <div v-if="expandedGroups.includes(group.name)" class="p-6">
+                  <div v-if="!workersCache[group.name]" class="text-center py-8">
+                    <svg class="animate-spin h-8 w-8 mx-auto text-blue-500" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                   </div>
 
-                  <div v-else-if="workersCache[group.name].length === 0" :class="['text-sm text-center py-4', textSecondary]">
-                    No workers in this group
+                  <div v-else-if="workersCache[group.name].length === 0" :class="['text-center py-8', textSecondary]">
+                    <svg class="w-16 h-16 mx-auto mb-3 opacity-50" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="text-sm font-medium">No workers in this group</p>
                   </div>
 
-                  <div v-else>
+                  <!-- Workers Grid -->
+                  <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div 
                       v-for="worker in workersCache[group.name]" 
                       :key="worker.id"
-                      :class="[isDark ? 'bg-gray-700' : 'bg-gray-100', 'p-3 rounded']"
+                      :class="[
+                        isDark ? 'bg-gray-700/50 border-gray-600' : 'bg-white border-gray-200',
+                        'border-2 rounded-lg p-5 hover:shadow-lg transition-all duration-200'
+                      ]"
                     >
-                      <p :class="['font-medium', textPrimary]">{{ worker.name }}</p>
-                      <div class="flex items-center space-x-4 mt-1 text-xs" :class="[textSecondary]">
-                        <span>IP: {{ worker.ip || 'N/A' }}</span>
-                        <span v-if="worker.lastSeenDateTime">
-                          Last Seen: {{ new Date(worker.lastSeenDateTime).toLocaleString() }}
-                        </span>
+                      <!-- Worker Header -->
+                      <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                          <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <h5 :class="['font-bold text-lg', textPrimary]">{{ worker.name }}</h5>
+                          </div>
+                        </div>
                       </div>
-                      <div v-if="worker.vmResourceId" :class="['text-xs mt-1 font-mono', textSecondary]">
-                        VM: {{ worker.vmResourceId.split('/').pop() }}
+
+                      <!-- Worker Details Grid -->
+                      <div class="space-y-3">
+                        <!-- Type -->
+                        <div class="flex items-center gap-3">
+                          <span :class="['text-xs font-medium w-24', textSecondary]">Type</span>
+                          <span :class="[
+                            'px-2.5 py-1 rounded-md text-xs font-semibold',
+                            isDark ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-700'
+                          ]">
+                            {{ worker.workerType || 'Server - Azure Arc' }}
+                          </span>
+                        </div>
+
+                        <!-- Platform -->
+                        <div v-if="worker.platform" class="flex items-center gap-3">
+                          <span :class="['text-xs font-medium w-24', textSecondary]">Platform</span>
+                          <span :class="['text-sm font-mono', textPrimary]">
+                            {{ worker.platform }}
+                          </span>
+                        </div>
+
+                        <!-- IP Address -->
+                        <div class="flex items-center gap-3">
+                          <span :class="['text-xs font-medium w-24', textSecondary]">IP Address</span>
+                          <span :class="['text-sm font-mono', textPrimary]">
+                            {{ worker.ip || 'N/A' }}
+                          </span>
+                        </div>
+
+                        <!-- Registration Time -->
+                        <div v-if="worker.registrationTime" class="flex items-center gap-3">
+                          <span :class="['text-xs font-medium w-24', textSecondary]">Registered</span>
+                          <span :class="['text-sm', textPrimary]">
+                            {{ new Date(worker.registrationTime).toLocaleString() }}
+                          </span>
+                        </div>
+
+                        <!-- Last Seen -->
+                        <div v-if="worker.lastSeenDateTime" class="flex items-center gap-3">
+                          <span :class="['text-xs font-medium w-24', textSecondary]">Last Seen</span>
+                          <span :class="['text-sm', textPrimary]">
+                            {{ formatLastSeen(worker.lastSeenDateTime) }}
+                          </span>
+                        </div>
+
+                        <!-- VM Resource (if available) -->
+                        <div v-if="worker.vmResourceId" class="mt-4 pt-3 border-t" :class="[borderSecondary]">
+                          <span :class="['text-xs font-medium block mb-1', textSecondary]">Azure VM</span>
+                          <span :class="['text-xs font-mono break-all', textPrimary]">
+                            {{ worker.vmResourceId }}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1037,6 +1136,25 @@ export default {
     }
   },
   methods: {
+    formatLastSeen(dateTime) {
+      if (!dateTime) return 'N/A'
+      
+      const now = new Date()
+      const lastSeen = new Date(dateTime)
+      const diffMs = now - lastSeen
+      const diffMins = Math.floor(diffMs / (1000 * 60))
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+      
+      if (diffMins < 1) return 'Just now'
+      if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`
+      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+      if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+      
+      // For older dates, show full date
+      return lastSeen.toLocaleString()
+    },
+    
     async loadSubscriptions() {
       try {
         const response = await axios.get('http://localhost:5000/api/azure/subscriptions')
