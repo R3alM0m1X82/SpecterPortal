@@ -76,6 +76,8 @@ This tool is provided **for educational and authorized security testing purposes
 - FOCI family classification
 - Expiration tracking with alerts
 
+---
+
 ### Search & Pattern Detection
 <img width="1586" height="762" alt="image" src="https://github.com/user-attachments/assets/0222e68c-e450-4e1e-b383-cffbcaf2cdc4" />
 
@@ -102,6 +104,8 @@ This tool is provided **for educational and authorized security testing purposes
 - Configurable regex patterns for organization-specific secrets
 - Built-in template library
 - Match highlighting and context extraction
+
+---
 
 ### Microsoft 365 Operations
 
@@ -142,6 +146,7 @@ This tool is provided **for educational and authorized security testing purposes
 - Image/attachment rendering
 - Private chat access
 
+---
 ### Entra ID Enumeration
 
 **Directory Intelligence:**
@@ -180,7 +185,6 @@ This tool is provided **for educational and authorized security testing purposes
 - **Authorization Policy extraction** (guest rules, default permissions)
 - Security defaults status
 
-
 **Conditional Access Policies:**
 <img width="2485" height="941" alt="image" src="https://github.com/user-attachments/assets/3d1fbf71-998a-40f6-9ba8-1c032507fff6" />
 - **Permission-less extraction** using legacy API technique
@@ -191,6 +195,8 @@ This tool is provided **for educational and authorized security testing purposes
 - Grant and session controls analysis
 - Policy state identification (Enabled/Disabled/Report-Only)
 
+---
+
 ### Azure Resource Operations
 
 **Permission Analysis:**
@@ -200,7 +206,6 @@ This tool is provided **for educational and authorized security testing purposes
 - Inherited vs direct assignments
 - Deny assignments detection
 - And more..
-
 
 **Virtual Machines:**
 <img width="2196" height="335" alt="image" src="https://github.com/user-attachments/assets/16be7033-5b4d-4add-a8b8-d6364ebe740d" />
@@ -219,7 +224,7 @@ This tool is provided **for educational and authorized security testing purposes
 - Access tier and replication settings
 
 **Key Vaults:**
-<img width="2008" height="926" alt="image" src="https://github.com/user-attachments/assets/f19e1f2f-5934-4603-a57f-08a425a1d904" />
+<img width="1972" height="1015" alt="image" src="https://github.com/user-attachments/assets/148e03bb-6467-4673-a1ca-37aa75e2d58a" />
 - Vault enumeration with access policies
 - **Secret extraction** (with appropriate permissions)
 - **Certificate download** with private keys
@@ -249,6 +254,8 @@ This tool is provided **for educational and authorized security testing purposes
 **Function Apps:** COMING SOON
 
 **Azure Arc:** COMING SOON
+
+---
 
 ### Advanced Capabilities
 
@@ -358,7 +365,6 @@ Most versatile method with 130+ pre-loaded Application IDs:
 3. Choose application (Office, Teams, Azure Portal, etc.)
 4. Complete browser authentication
 5. Tokens imported automatically
-
 
 ### ROPC Authentication
 
