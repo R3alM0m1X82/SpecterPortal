@@ -780,6 +780,14 @@ const isCacheValid = (cacheEntry) => {
   return age < CACHE_TTL
 }
 
+// CRITICAL: Invalidate ALL cache (used after elevation/removal)
+const invalidateAllCache = () => {
+  console.log('[CACHE] Invalidating ALL cache entries')
+  dataCache.value.myPermissions = { data: null, timestamp: null }
+  dataCache.value.allAssignments = { data: null, timestamp: null, principals: null }
+  dataCache.value.effectivePermissions = { data: null, timestamp: null }
+}
+
 const loadMyPermissions = async (forceRefresh = false) => {
   // Check cache first (5 min TTL) - skip if force refresh
   if (!forceRefresh && isCacheValid(dataCache.value.myPermissions)) {
@@ -1171,8 +1179,16 @@ const elevateAccess = async () => {
     
     if (response.data.success) {
       elevationSuccess.value = 'Access elevated successfully! You now have User Access Administrator role at root scope.'
+      
+      // CRITICAL: Invalidate ALL cache before checking status
+      invalidateAllCache()
+      
       await checkElevationStatus()
-      await loadMyPermissions(true) // Reload permissions to show new role
+      
+      // Wait 2 seconds for Azure propagation before reloading permissions
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      await loadMyPermissions(true) // Force reload permissions
     } else {
       elevationError.value = response.data.error || 'Failed to elevate access'
     }
@@ -1198,8 +1214,16 @@ const removeElevation = async () => {
     
     if (response.data.success) {
       elevationSuccess.value = 'Elevation removed successfully!'
+      
+      // CRITICAL: Invalidate ALL cache before checking status
+      invalidateAllCache()
+      
       await checkElevationStatus()
-      await loadMyPermissions(true) // Reload permissions
+      
+      // Wait 2 seconds for Azure propagation before reloading permissions
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      await loadMyPermissions(true) // Force reload permissions
     } else {
       elevationError.value = response.data.error || 'Failed to remove elevation'
     }
