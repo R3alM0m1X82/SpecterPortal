@@ -395,32 +395,32 @@ Service Principal authentication:
 
 APP SERVICES - Web App Exploitation 🌐
 Configuration Theft
-•	Extract app settings (API keys, connection strings)
-•	Download web.config / .env files
-•	Steal deployment credentials (FTP/Git)
+- Extract app settings (API keys, connection strings)
+- Download web.config / .env files
+- Steal deployment credentials (FTP/Git)
 Code Execution
-•	Deploy malicious code (if permissions)
-•	Use Kudu console for remote command execution
-•	Inject web shell via deployment slots
+- Deploy malicious code (if permissions)
+- Use Kudu console for remote command execution
+- Inject web shell via deployment slots
 Identity Abuse
-•	Extract App Service Managed Identity token
-•	Check app permissions (what APIs can it call?)
-•	Use identity to pivot to other resources
+- Extract App Service Managed Identity token
+- Check app permissions (what APIs can it call?)
+- Use identity to pivot to other resources
 Data Exfiltration
-•	Download application files
-•	Access linked databases (connection strings)
-•	Steal application logs (sensitive data)
+- Download application files
+- Access linked databases (connection strings)
+- Steal application logs (sensitive data)
 
 6. SQL DAtabases
 SQL Databases:
-•	Connection string extraction
-•	Firewall rules check (public access?)
-•	Database enumeration
-•	Execute queries (if credentials available)
+- Connection string extraction
+- Firewall rules check (public access?)
+- Database enumeration
+- Execute queries (if credentials available)
 Network Security Groups:
-•	Enumerate NSG rules
-•	Find permissive inbound rules (0.0.0.0/0)
-•	Check if critical ports exposed (RDP 3389, SSH 22)
+- Enumerate NSG rules
+- Find permissive inbound rules (0.0.0.0/0)
+- Check if critical ports exposed (RDP 3389, SSH 22)
 
 ---
 
