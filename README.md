@@ -393,7 +393,7 @@ Service Principal authentication:
 
 ### Roadmap
 
-APP SERVICES - Web App Exploitation 🌐
+1. APP SERVICES - Web App Exploitation 🌐
 Configuration Theft
 - Extract app settings (API keys, connection strings)
 - Download web.config / .env files
@@ -411,7 +411,7 @@ Data Exfiltration
 - Access linked databases (connection strings)
 - Steal application logs (sensitive data)
 
-6. SQL DAtabases
+2. SQL DAtabases
 SQL Databases:
 - Connection string extraction
 - Firewall rules check (public access?)
@@ -422,6 +422,15 @@ Network Security Groups:
 - Find permissive inbound rules (0.0.0.0/0)
 - Check if critical ports exposed (RDP 3389, SSH 22)
 
+3. Function Apps
+- Function Apps Enumeration
+- Application Settings Extraction
+- Source Code Download
+- Managed Identity Analysis
+- Deployment Slots Enumeration
+- WebJobs Discovery
+- Security Configuration Audit
+ 
 ---
 
 
