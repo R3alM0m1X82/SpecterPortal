@@ -385,7 +385,7 @@ Service Principal authentication:
 
 ---
 
-### Roadmap 🏁
+### Roadmap
 
 1. APP SERVICES
 - Extract app settings (API keys, connection strings)
