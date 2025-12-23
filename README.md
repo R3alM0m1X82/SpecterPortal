@@ -242,15 +242,9 @@ This tool is provided **for educational and authorized security testing purposes
 
 **SQL Databases:** BETA
 - SQL Server and Database discovery
-- Connection string construction
-- Firewall rule enumeration
-- Credential recovery via Key Vault integration
 
 **App Services:** BETA
 - Web app enumeration with runtime details
-- **Application settings extraction** (secrets, connection strings)
-- Deployment credential recovery
-- Managed Identity configuration
 
 **Function Apps:** COMING SOON
 
@@ -393,8 +387,7 @@ Service Principal authentication:
 
 ### Roadmap
 
-1. APP SERVICES - Web App Exploitation 🌐
-Configuration Theft
+1. APP SERVICES
 - Extract app settings (API keys, connection strings)
 - Download web.config / .env files
 - Steal deployment credentials (FTP/Git)
