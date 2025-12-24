@@ -454,7 +454,7 @@ Feel free to submit issues, fork the repository, and create pull requests for an
 
 This tool is based on the inspiration of:
 
-- **GrapSpy** by RedByte1337
+- **GraphSpy** by RedByte1337
 - **TokenTactics v2** by f-bader
 - **ROADtools** by Dirk-jan Mollema 
 
