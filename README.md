@@ -35,7 +35,7 @@
 
 ---
 
-## 🎥 - **Video** - **Watch SpecterBroker/SpecterPortal vs CrowdStrike -> https://youtu.be/Gk7cB2Tl8Qo**
+## 🎥 - **Watch SpecterBroker/SpecterPortal vs CrowdStrike -> https://youtu.be/Gk7cB2Tl8Qo**
 
 ---
 
