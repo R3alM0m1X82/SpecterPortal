@@ -221,7 +221,7 @@ This tool is provided **for educational and authorized security testing purposes
 - OS and configuration details
 
 **Storage Accounts:**
-<img width="2572" height="923" alt="image" src="https://github.com/user-attachments/assets/fcbd82d6-bf71-4c5b-9246-c4fbaf3e0268" />
+<img width="1866" height="686" alt="image" src="https://github.com/user-attachments/assets/b12fd38e-3ee1-4202-9b40-8dc5f1766889" />
 - Storage enumeration across subscriptions
 - **Firewall rule analysis** (public vs restricted)
 - **Anonymous blob detection** for data exposure
