@@ -4,7 +4,7 @@ Extracts UPN (user) or AppID/AppName (service principal) from Access Tokens
 """
 import json
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from database import db
 from models.token import Token
 from models.extraction import ExtractionMetadata
@@ -613,3 +613,36 @@ class TokenService:
             'broker_tokens': broker_count,
             'expired_tokens': expired_count
         }
+
+    @staticmethod
+    def add_token(access_token, refresh_token, scope, audience, upn, source, client_id, expires_in):
+        """
+        Stores a new token in the database.
+        """
+        try:
+            # Calculate actual expiration timestamp
+            expires_at = datetime.utcnow() + timedelta(seconds=int(expires_in))
+
+            new_token = Token(
+                access_token=access_token,
+                refresh_token=refresh_token,
+                scope=scope,
+                upn=upn,
+                audience=audience,
+                source=source,
+                client_id=client_id,
+                expires_at=expires_at,
+                created_at=datetime.utcnow()
+            )
+
+            db.session.add(new_token)
+            db.session.commit()
+            
+            # Return the ID so the route can return it to the user
+            return new_token.id
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"[DATABASE ERROR] Failed to add token: {e}")
+            raise e
+
