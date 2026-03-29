@@ -383,6 +383,7 @@ def authenticate_service_principal():
                 access_token=access_token,
                 refresh_token=None,  # SP tokens don't have refresh tokens
                 scope=scope,
+                audience=aud,
                 upn=f"{app_name} (SP)",
                 source='service_principal',
                 client_id=client_id,
