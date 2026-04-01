@@ -69,8 +69,17 @@ OTHER_APPS = {
     '26a4ae64-5862-427f-a9b0-044e62572a4f': 'Intune Company Portal',
     'fc0f3af4-6835-4174-b806-f7db311fd2f3': 'Office Desktop',
     '4765445b-32c6-49b0-83e6-1d93765276ca': 'Office Mobile',
-    '268761a2-03f3-40df-8a8b-c3db24145b6b': 'Microsoft Store',
+    '268761a2-03f3-40df-8a8b-c3db24145b6b': 'Universal Store Native Client',
     '4b0964e4-58f1-47f4-a552-e2e1fc56dcd7': 'Microsoft Edge (Legacy)',
+    '5d661950-3475-41cd-a2c3-d671a3162bc1': 'Microsoft Outlook (One Outlook)',
+    '1b730954-1685-4b74-9bfd-dac224a7b894': 'Azure Active Directory PowerShell',
+    'fb78d390-0c51-40cd-8e17-fdbfab77341b': 'Microsoft Exchange REST API Based PowerShell',
+    'a0c73c16-a7e3-4564-9a95-2bdf47383716': 'Microsoft Exchange Online Remote PowerShell',
+    '9bc3ab49-b65d-410a-85ad-de819febfddc': 'Microsoft SharePoint Online Management Shell',
+    'cb1056e2-e479-49de-ae31-7812af012ed8': 'Microsoft Azure Active Directory Connect',
+    '14d82eec-204b-4c2f-b7e8-296a70dab67e': 'Microsoft Graph Command Line Tools',
+    '04f0c124-f2bc-4f59-8241-bf6df9866bbd': 'Visual Studio 2022',
+    '60c8bde5-3167-4f92-8fdb-059f6176dc0f': 'Enterprise Roaming and Backup',
 }
 
 # CRITICAL: Client ID → Expected Resource/Audience Mapping
